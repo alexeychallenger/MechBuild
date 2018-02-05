@@ -7,6 +7,7 @@ TagManager:
   - terrain
   - Block
   - Attaching point
+  - ModalCanvas
   layers:
   - Default
   - TransparentFX
@@ -43,4 +44,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Modal
+    uniqueID: 3780285977
     locked: 0

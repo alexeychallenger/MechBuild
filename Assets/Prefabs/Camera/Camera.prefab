@@ -271,7 +271,7 @@ MonoBehaviour:
   targetPointer: {fileID: 4096583209077480}
   cameraPointer: {fileID: 4803479591190590}
   cameraContainer: {fileID: 4229860855859962}
-  camera: {fileID: 20967350871506444}
+  mainCamera: {fileID: 20967350871506444}
   followSpeed: 4
   zoomSpeed: 1.5
   rotateSpeedX: 0.1

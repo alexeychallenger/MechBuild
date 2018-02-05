@@ -27,7 +27,7 @@ namespace Assets.Scripts
         /// Camera container
         /// </summary>
         public Transform cameraContainer;
-        public Camera camera;
+        public Camera mainCamera;
 
         [Header("Stats")]
 
@@ -47,7 +47,7 @@ namespace Assets.Scripts
         void Start()
         {
             cameraPointer.localPosition = offset;
-            camera.transform.localPosition = offset;   //присвоение смещение камеры относительно центра объекта
+            mainCamera.transform.localPosition = offset;   //присвоение смещение камеры относительно центра объекта
         }
 
         void FixedUpdate()
@@ -71,8 +71,8 @@ namespace Assets.Scripts
                                                       targetPointer.rotation.eulerAngles.y,
                                                       0.0f);
 
-            cameraContainer.rotation = Quaternion.Euler(camera.transform.rotation.eulerAngles.x,
-                                                        camera.transform.rotation.eulerAngles.y,
+            cameraContainer.rotation = Quaternion.Euler(mainCamera.transform.rotation.eulerAngles.x,
+                                                        mainCamera.transform.rotation.eulerAngles.y,
                                                         0.0f);
             FollowTarget();
 
@@ -99,10 +99,10 @@ namespace Assets.Scripts
             }
 
             //сглаживание зума камеры
-            if (RoundUtils.Vector3Round(camera.transform.position, vectorTolerance) !=
+            if (RoundUtils.Vector3Round(mainCamera.transform.position, vectorTolerance) !=
                 RoundUtils.Vector3Round(cameraPointer.position, vectorTolerance))
             {
-                camera.transform.position = Vector3.Lerp(camera.transform.position, cameraPointer.position, followSpeed * Time.deltaTime);
+                mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, cameraPointer.position, followSpeed * Time.deltaTime);
             }
 
             //сглаживание поворотов камеры вокруг цели
@@ -119,7 +119,7 @@ namespace Assets.Scripts
         {
             RaycastHit hit;
             //создается луч который определяет объект на который указывает курсор мыши
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             //определяет место соприкосновения коллайдера луча и объекта
             if (Physics.Raycast(ray, out hit))
             {
