@@ -7,6 +7,9 @@ namespace Assets.Scripts
 {
     public enum Tags
     {
-        ModalCanvas
+        ModalCanvas,
+        terrain,
+        block,
+        attachment
     }
 }

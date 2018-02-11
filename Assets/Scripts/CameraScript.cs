@@ -2,6 +2,7 @@
 using Assets.Scripts.Utils;
 using System.Collections;
 using Assets.Scripts;
+using Assets.Scripts.Blocks;
 
 namespace Assets.Scripts
 {
@@ -124,22 +125,32 @@ namespace Assets.Scripts
             if (Physics.Raycast(ray, out hit))
             {
                 //определение объекта, на который указывает мышь и назначение его целью
-                target = hit.transform;
-                if (target.name == "Terrain")
+                target = hit.collider.transform;
+                if (target.tag == Tags.terrain.ToString())
                 {
                     targetPointer.position = hit.point;
-                    DbLog.Log(string.Format("Terrain point ({0}) selected.", targetPointer.position), Color.grey, this);
+                    DbLog.Log(string.Format("Terrain point ({0}) selected.", targetPointer.position), Color.blue, this);
+                }
+                else if (target.tag == Tags.attachment.ToString())
+                {
+                    targetPointer.position = target.GetComponent<Attachment>().block.transform.position;
+                    DbLog.Log(string.Format("attachment point ({1}) selected.", target.name, targetPointer.position), Color.blue, this);
+                }
+                else if (target.tag == Tags.block.ToString())
+                {
+                    targetPointer.position = target.position;
+                    DbLog.Log(string.Format("block point ({1}) selected.", target.name, targetPointer.position), Color.blue, this);
                 }
                 else
                 {
                     targetPointer.position = target.position;
-                    DbLog.Log(string.Format("{0}'s point ({1}) selected.", target.name, targetPointer.position), Color.grey, this);
+                    DbLog.Log(string.Format("{0}'s point ({1}) selected.", target.name, targetPointer.position), Color.blue, this);
                 }
             }
             else
             {
                 target = null;
-                DbLog.Log("No target.", Color.grey, this);
+                DbLog.Log("No target.", Color.blue, this);
             }
         }
 

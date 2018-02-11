@@ -5,9 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - terrain
-  - Block
-  - Attaching point
   - ModalCanvas
+  - block
+  - attachment
   layers:
   - Default
   - TransparentFX
