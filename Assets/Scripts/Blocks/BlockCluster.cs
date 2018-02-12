@@ -8,7 +8,10 @@ namespace Assets.Scripts.Blocks
 {
     public class BlockCluster : MonoBehaviour
     {
+        public Rigidbody rigidbody;
         public List<Block> attachedBlockList;
+        public static event Action<BlockCluster> ClusterCreated;
+        public static event Action<BlockCluster> ClusterDestroyed;
 
         private void Start()
         {
@@ -23,7 +26,11 @@ namespace Assets.Scripts.Blocks
 
         public void Init()
         {
+            name = string.Format("BlockCluster {0}", Guid.NewGuid());
             attachedBlockList = new List<Block>();
+            Block.BlockDestroyed += RemoveBlock;
+
+            if (ClusterCreated != null) ClusterCreated(this);
         }
 
         public void AddBlock(Block block)
@@ -36,12 +43,12 @@ namespace Assets.Scripts.Blocks
         {
             block.transform.SetParent(transform);
             block.blockCluster = this;
-            block.BlockDestroyed += RemoveBlock;
+            block.BlockInstanceDestroyed += RemoveBlock;
         }
 
         public void RemoveBlock(Block block)
         {
-            block.BlockDestroyed -= RemoveBlock;
+            block.BlockInstanceDestroyed -= RemoveBlock;
             block.blockCluster = null;
             attachedBlockList.Remove(block);
         }

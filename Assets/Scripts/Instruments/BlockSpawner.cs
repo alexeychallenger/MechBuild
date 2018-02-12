@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Blocks;
+using Assets.Scripts.GameManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,29 +12,30 @@ namespace Assets.Scripts.Instruments
     {
         public Block blockPrefab;
         public BlockCluster blockClusterPrefab;
+        public BlockManager blockManager;
+
+        public bool isSpawnEnabled = true;
 
         public event Action<Block> BlockSpawned;
 
-        public void SpawnBlock(Attachment target)
+        public void SpawnBlock(Attachment targetAttachment)
         {
-            if (target.block.blockCluster == null)
+            if (!isSpawnEnabled) return;
+
+            if (targetAttachment.block.blockCluster == null)
             {
                 BlockCluster blockCluster = SpawnCluster();
-                blockCluster.AddBlock(target.block);
+                blockCluster.AddBlock(targetAttachment.block);
             }
             Block block = Instantiate(blockPrefab);
-            block.name = string.Format("{0} {1}", block.Type.ToString(), Guid.NewGuid());
-            block.transform.position = target.transform.position;
-            block.transform.rotation = target.transform.rotation;
-            block.transform.localPosition += block.GetSpawnPointOffcet();
-            target.block.blockCluster.AddBlock(block);
-            target.block.Attach(block);
+            block.Init(targetAttachment);
         }
 
         public BlockCluster SpawnCluster()
         {
             BlockCluster blockCluster = Instantiate(blockClusterPrefab);
-            blockCluster.name = string.Format("BlockCluster {0}", Guid.NewGuid());
+            blockCluster.Init();
+            blockCluster.rigidbody.useGravity = blockManager.useGravity;
             return blockCluster;
         }
 
@@ -50,6 +52,12 @@ namespace Assets.Scripts.Instruments
                     }
                 }
             }
+        }
+
+        public void SwitchSpawnEnable()
+        {
+            isSpawnEnabled = !isSpawnEnabled;
+            DbLog.Log(string.Format("Block spawn switched to {0} state", isSpawnEnabled), Color.blue, this);
         }
     }
 }
