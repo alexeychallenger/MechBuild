@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace UnityStandardAssets.Utility
+namespace Assets.Scripts.Instruments
 {
-    public class DragRigidbody : MonoBehaviour
+    public class DragRigidbody : Instrument
     {
         const float k_Spring = 50.0f;
         const float k_Damper = 5.0f;
@@ -15,6 +15,20 @@ namespace UnityStandardAssets.Utility
 
         private SpringJoint m_SpringJoint;
 
+        protected Camera mainCamera;
+
+        public override InstrumentType Type
+        {
+            get
+            {
+                return InstrumentType.DragAndDrop;
+            }
+        }
+
+        public void Awake()
+        {
+           mainCamera = FindCamera();
+        }
 
         private void Update()
         {
@@ -23,8 +37,6 @@ namespace UnityStandardAssets.Utility
             {
                 return;
             }
-
-            var mainCamera = FindCamera();
 
             // We need to actually hit an object
             RaycastHit hit = new RaycastHit();

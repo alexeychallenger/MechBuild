@@ -8,13 +8,21 @@ using UnityEngine;
 
 namespace Assets.Scripts.Instruments
 {
-    public class BlockSpawner : MonoBehaviour
+    public class BlockSpawner : Instrument
     {
         public Block blockPrefab;
         public BlockCluster blockClusterPrefab;
         public BlockManager blockManager;
 
         public bool isSpawnEnabled = true;
+
+        public override InstrumentType Type
+        {
+            get
+            {
+                return InstrumentType.Spawner;
+            }
+        }
 
         public event Action<Block> BlockSpawned;
 
