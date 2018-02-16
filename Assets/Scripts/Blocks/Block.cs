@@ -6,9 +6,15 @@ using UnityEngine;
 
 namespace Assets.Scripts.Blocks
 {
-    public abstract class Block : MonoBehaviour
+    public class Block : MonoBehaviour
     {
-        public abstract BlockType Type { get; }
+        public virtual BlockType Type
+        {
+            get
+            {
+                return BlockType.Block;
+            }
+        }
         public BlockCluster blockCluster;
         public List<Attachment> attachments;
         public List<Block> connectedBlocks;
@@ -18,7 +24,10 @@ namespace Assets.Scripts.Blocks
         public static event Action<Block> BlockDestroyed;
         public event Action<Block> BlockInstanceDestroyed;
 
-        public abstract void Attach(Block block);
+        public virtual void Attach(Block block)
+        {
+            ConnectBlock(block);
+        }
 
         protected void Awake()
         {

@@ -17,7 +17,11 @@ namespace Assets.Scripts.Instruments
 
         protected void Start()
         {
-            if (CurrentInstrumentChanged != null) { CurrentInstrumentChanged(new ChangeValueEventArgs<InstrumentType>(currentInstrument, currentInstrument));}
+            if (CurrentInstrumentChanged != null)
+            {
+                CurrentInstrumentChanged(new ChangeValueEventArgs<InstrumentType>(currentInstrument, currentInstrument));
+            }
+            SelectInstrument(currentInstrument);
         }
 
         public InstrumentType CurrentInstrument

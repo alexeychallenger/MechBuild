@@ -33,6 +33,7 @@ namespace Assets.Scripts.Instruments
             if (targetAttachment.block.blockCluster == null)
             {
                 BlockCluster blockCluster = SpawnCluster();
+                blockCluster.transform.position = targetAttachment.block.transform.position;
                 blockCluster.AddBlock(targetAttachment.block);
             }
             Block block = Instantiate(blockPrefab);

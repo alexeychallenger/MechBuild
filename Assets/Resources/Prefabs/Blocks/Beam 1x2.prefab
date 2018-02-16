@@ -21,11 +21,11 @@ GameObject:
   - component: {fileID: 4843687734784346}
   - component: {fileID: 33358644469872980}
   - component: {fileID: 23533745404717926}
-  - component: {fileID: 114817770186518046}
   - component: {fileID: 65843931027038998}
+  - component: {fileID: 114722453011616466}
   m_Layer: 0
   m_Name: Beam 1x2
-  m_TagString: Untagged
+  m_TagString: block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -311,7 +311,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1046322940359544}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 237.949, y: 10.03, z: 259.95}
+  m_LocalPosition: {x: 240.57, y: 10.03, z: 263.32}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4167560085063920}
@@ -537,7 +537,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e612e9c0e9806d843bcf299f3c0eb5f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  block: {fileID: 114817770186518046}
+  block: {fileID: 114722453011616466}
 --- !u!114 &114259072269609952
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -549,7 +549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e612e9c0e9806d843bcf299f3c0eb5f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  block: {fileID: 114817770186518046}
+  block: {fileID: 114722453011616466}
 --- !u!114 &114336410091254236
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -561,7 +561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e612e9c0e9806d843bcf299f3c0eb5f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  block: {fileID: 114817770186518046}
+  block: {fileID: 114722453011616466}
 --- !u!114 &114548238449691046
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -573,7 +573,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e612e9c0e9806d843bcf299f3c0eb5f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  block: {fileID: 114817770186518046}
+  block: {fileID: 114722453011616466}
 --- !u!114 &114566306009441114
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -585,7 +585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e612e9c0e9806d843bcf299f3c0eb5f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  block: {fileID: 114817770186518046}
+  block: {fileID: 114722453011616466}
 --- !u!114 &114615136303515544
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -597,7 +597,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e612e9c0e9806d843bcf299f3c0eb5f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  block: {fileID: 114817770186518046}
+  block: {fileID: 114722453011616466}
 --- !u!114 &114625790143825906
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -609,20 +609,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e612e9c0e9806d843bcf299f3c0eb5f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  block: {fileID: 114817770186518046}
---- !u!114 &114776137229824670
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1596636818350814}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e612e9c0e9806d843bcf299f3c0eb5f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  block: {fileID: 114817770186518046}
---- !u!114 &114817770186518046
+  block: {fileID: 114722453011616466}
+--- !u!114 &114722453011616466
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -630,7 +618,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1046322940359544}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c338bb017588ad449c5387b79bf37d4, type: 3}
+  m_Script: {fileID: 11500000, guid: ed1cdd31986ea634fbf19811b901478c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   blockCluster: {fileID: 0}
@@ -647,6 +635,18 @@ MonoBehaviour:
   - {fileID: 114899011645826558}
   connectedBlocks: []
   currentBaseAttachment: {fileID: 0}
+--- !u!114 &114776137229824670
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1596636818350814}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e612e9c0e9806d843bcf299f3c0eb5f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  block: {fileID: 114722453011616466}
 --- !u!114 &114899011645826558
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -658,7 +658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e612e9c0e9806d843bcf299f3c0eb5f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  block: {fileID: 114817770186518046}
+  block: {fileID: 114722453011616466}
 --- !u!114 &114910122387971288
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -670,4 +670,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e612e9c0e9806d843bcf299f3c0eb5f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  block: {fileID: 114817770186518046}
+  block: {fileID: 114722453011616466}

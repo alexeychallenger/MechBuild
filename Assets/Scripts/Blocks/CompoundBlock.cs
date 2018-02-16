@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Scripts.Blocks
 {
-    public enum BlockType
+    public class CompoundBlock : MonoBehaviour
     {
-        Block,
-        HingeBlock
+
     }
 }
