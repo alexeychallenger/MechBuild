@@ -48,10 +48,17 @@ namespace Assets.Scripts.Blocks
             name = string.Format("{0} {1}", Type.ToString(), Guid.NewGuid());
             transform.position = targetAttachment.transform.position;
             transform.rotation = targetAttachment.transform.rotation;
-            transform.localPosition += GetSpawnPointOffcet();
+            transform.localPosition += GetSpawnPointOffset();
+            blockCluster = targetAttachment.block.blockCluster;
             targetAttachment.block.blockCluster.AddBlock(this);
             targetAttachment.block.Attach(this);
-            if (BlockCreated != null) BlockCreated(this);
+
+            OnBlockCreated(this);
+        }
+
+        protected void OnBlockCreated(Block block)
+        {
+            if (BlockCreated != null) BlockCreated(block);
         }
 
         protected void ConnectBlock(Block block)
@@ -60,7 +67,7 @@ namespace Assets.Scripts.Blocks
             block.connectedBlocks.Add(this);
         }
 
-        public Vector3 GetSpawnPointOffcet()
+        public Vector3 GetSpawnPointOffset()
         {
             Vector3 spawnPoint = currentBaseAttachment.transform.position - transform.position;
             return spawnPoint;
