@@ -19,10 +19,6 @@ namespace Assets.Scripts.InputControllers
             {
                 blockManager.SwitchGravity();
             }
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                blockSpawner.SwitchSpawnEnable();
-            }
         }
     }
 }

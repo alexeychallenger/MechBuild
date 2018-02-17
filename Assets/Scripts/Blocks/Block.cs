@@ -29,9 +29,18 @@ namespace Assets.Scripts.Blocks
             ConnectBlock(block);
         }
 
-        protected void Awake()
+        protected virtual void Awake()
         {
             currentBaseAttachment = attachments[0];
+        }
+
+        protected virtual void Start()
+        {
+            if (blockCluster == null)
+            {
+                BlockCluster blockCluster = BlockCluster.SpawnCluster(transform.position);
+                blockCluster.AddBlock(this);
+            }
         }
 
         public virtual void Init(Attachment targetAttachment)

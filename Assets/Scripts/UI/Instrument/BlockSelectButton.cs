@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Blocks;
+using Assets.Scripts.Events;
 using Assets.Scripts.Instruments;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace Assets.Scripts.UI.Instrument
         protected Block blockPrefab;
         protected BlockSpawner blockSpawner;
 
+        public Button button;
         public Image blockImage;
         public Text blockName;
 
@@ -21,12 +23,26 @@ namespace Assets.Scripts.UI.Instrument
         {
             this.blockPrefab = blockPrefab;
             this.blockSpawner = blockSpawner;
+            blockSpawner.BlockPrefabChanged += OnBlockPrefabChanged;
             blockName.text = blockPrefab.name;
+        }
+
+        protected void OnDestroy()
+        {
+            if (blockSpawner != null)
+            {
+                blockSpawner.BlockPrefabChanged -= OnBlockPrefabChanged;
+            }
         }
 
         public void OnButtonClick()
         {
-            blockSpawner.blockPrefab = blockPrefab;
+            blockSpawner.BlockPrefab = blockPrefab;
+        }
+
+        protected void OnBlockPrefabChanged(ChangeValueEventArgs<Block> e)
+        {
+            button.interactable = !(e.NewValue == blockPrefab);
         }
     }
 }

@@ -20,6 +20,7 @@ namespace Assets.Scripts.GameManagement
             Block.BlockCreated += AddBlock;
             Block.BlockDestroyed += RemoveBlock;
             BlockCluster.ClusterCreated += AddCluster;
+            BlockCluster.ClusterCreated += SetClusterSettings;
             BlockCluster.ClusterDestroyed += RemoveCluster;
         }
 
@@ -49,12 +50,17 @@ namespace Assets.Scripts.GameManagement
             clusterList.Remove(blockCluster);
         }
 
+        protected void SetClusterSettings(BlockCluster blockCluster)
+        {
+            blockCluster.SetSettings(useGravity);
+        }
+
         public void SwitchGravity()
         {
             useGravity = !useGravity;
             foreach(BlockCluster blockCluster in clusterList)
             {
-                blockCluster.rigidbody.useGravity = useGravity;
+                blockCluster.GetComponent<Rigidbody>().useGravity = useGravity;
             }
             DbLog.Log(string.Format("Gravity switched to {0} state", useGravity), Color.blue, this);
         }

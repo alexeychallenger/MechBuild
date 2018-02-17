@@ -67,5 +67,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f12a93495240d4c498d7e124f82af603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rigidbody: {fileID: 54883100092773244}
+  rigidbodyComponent: {fileID: 54883100092773244}
   attachedBlockList: []

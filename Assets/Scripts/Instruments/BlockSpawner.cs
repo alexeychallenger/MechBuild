@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Blocks;
+using Assets.Scripts.Events;
 using Assets.Scripts.GameManagement;
 using System;
 using System.Collections.Generic;
@@ -10,11 +11,43 @@ namespace Assets.Scripts.Instruments
 {
     public class BlockSpawner : Instrument
     {
-        public Block blockPrefab;
+        protected Block blockPrefab;
+        public Block BlockPrefab
+        {
+            get { return blockPrefab; }
+            set
+            {
+                var oldVal = blockPrefab;
+                if (blockPrefab != value)
+                {
+                    blockPrefab = value;
+                    if (BlockPrefabChanged != null)
+                    {
+                        BlockPrefabChanged(new ChangeValueEventArgs<Block>(oldVal, blockPrefab));
+                    }
+                }
+            }
+        }
+
+        protected void Awake()
+        {
+            BlockPrefabChanged += OnBlockPrefabChanged;
+        }
+
+        protected void OnDestroy()
+        {
+            BlockPrefabChanged -= OnBlockPrefabChanged;
+        }
+
+        private void OnBlockPrefabChanged(ChangeValueEventArgs<Block> e)
+        {
+            DbLog.Log(string.Format("Block prefab changed from [{0}] to [{1}]", e.OldValue, e.NewValue), Color.magenta, this);
+        }
+
+        public event Action<ChangeValueEventArgs<Block>> BlockPrefabChanged;
+
         public BlockCluster blockClusterPrefab;
         public BlockManager blockManager;
-
-        public bool isSpawnEnabled = true;
 
         public override InstrumentType Type
         {
@@ -24,28 +57,15 @@ namespace Assets.Scripts.Instruments
             }
         }
 
-        public event Action<Block> BlockSpawned;
-
         public void SpawnBlock(Attachment targetAttachment)
         {
-            if (!isSpawnEnabled) return;
-
-            if (targetAttachment.block.blockCluster == null)
+            if (blockPrefab == null)
             {
-                BlockCluster blockCluster = SpawnCluster();
-                blockCluster.transform.position = targetAttachment.block.transform.position;
-                blockCluster.AddBlock(targetAttachment.block);
+                DbLog.LogWarning("Select block type first", this);
+                return;
             }
             Block block = Instantiate(blockPrefab);
             block.Init(targetAttachment);
-        }
-
-        public BlockCluster SpawnCluster()
-        {
-            BlockCluster blockCluster = Instantiate(blockClusterPrefab);
-            blockCluster.Init();
-            blockCluster.rigidbody.useGravity = blockManager.useGravity;
-            return blockCluster;
         }
 
         public void Update()
@@ -61,12 +81,6 @@ namespace Assets.Scripts.Instruments
                     }
                 }
             }
-        }
-
-        public void SwitchSpawnEnable()
-        {
-            isSpawnEnabled = !isSpawnEnabled;
-            DbLog.Log(string.Format("Block spawn switched to {0} state", isSpawnEnabled), Color.blue, this);
         }
     }
 }
