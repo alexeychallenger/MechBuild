@@ -16,15 +16,12 @@ namespace Assets.Scripts.Blocks
             }
         }
 
-        public HingeJoint hingeJoint;
+        public HingeJoint hingeJointComponent;
 
         public override void Init(Attachment targetAttachment)
         {
             name = string.Format("{0} {1}", Type.ToString(), Guid.NewGuid());
-
-            transform.position = targetAttachment.transform.position;
-            transform.rotation = targetAttachment.transform.rotation;
-            transform.localPosition += GetSpawnPointOffset();
+            SetPosition(targetAttachment);
             blockCluster = BlockCluster.SpawnCluster(transform.position);
             blockCluster.AddBlock(this);
             AddHingeJointComponent(targetAttachment);
@@ -34,9 +31,9 @@ namespace Assets.Scripts.Blocks
 
         protected void AddHingeJointComponent(Attachment targetAttachment)
         {
-            hingeJoint = blockCluster.gameObject.AddComponent<HingeJoint>();
-            hingeJoint.connectedBody = targetAttachment.block.blockCluster.rigidbodyComponent;
-            hingeJoint.axis = GetSpawnPointOffset().normalized;
+            hingeJointComponent = blockCluster.gameObject.AddComponent<HingeJoint>();
+            hingeJointComponent.connectedBody = targetAttachment.block.blockCluster.rigidbodyComponent;
+            hingeJointComponent.axis = GetSpawnPointOffset().normalized;
         }
     }
 }
