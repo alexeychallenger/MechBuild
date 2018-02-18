@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,7 @@ namespace Assets.Scripts.Blocks
         public MeshRenderer meshRendererComponent;
         public Material defaultMaterial;
         public Material previewMaterial;
+        public Collider colliderComponent;
         
         [HideInInspector] public Attachment currentBaseAttachment;
         public static event Action<Block> BlockCreated;
@@ -51,11 +53,9 @@ namespace Assets.Scripts.Blocks
 
         public virtual void Init(Attachment targetAttachment)
         {
-            isPreview = false;
-            name = string.Format("{0} {1}", Type.ToString(), Guid.NewGuid());
-            SetPosition(targetAttachment);
-            meshRendererComponent.material = defaultMaterial;
+            SwitchPreview(false);
 
+            SetPosition(targetAttachment);
             blockCluster = targetAttachment.block.blockCluster;
             targetAttachment.block.blockCluster.AddBlock(this);
             targetAttachment.block.Attach(this);
@@ -63,11 +63,27 @@ namespace Assets.Scripts.Blocks
             OnBlockCreated(this);
         }
 
+        private void SwitchPreview(bool isPreview)
+        {
+            this.isPreview = isPreview;
+            SwitchLayer(isPreview ? LayerType.Preview : LayerType.Block);
+            name = string.Format("{0} {1} {2}", Type, isPreview ? "(preview)" : "", gameObject.GetInstanceID());
+            meshRendererComponent.material = isPreview ? previewMaterial : defaultMaterial;
+            colliderComponent.isTrigger = isPreview;
+        }
+
+        private void SwitchLayer(LayerType layerType)
+        {
+            LayerManager.SwitchLayer(gameObject, layerType);
+            foreach (Attachment attachent in attachments)
+            {
+                LayerManager.SwitchLayer(attachent.gameObject, layerType);
+            }
+        }
+
         public virtual void InitPreview()
         {
-            isPreview = true;
-            name = string.Format("{0} (preview) {1}", Type.ToString(), Guid.NewGuid());
-            meshRendererComponent.material = previewMaterial;
+            SwitchPreview(true);
         }
 
         public virtual void ShowPreview(Attachment targetAttachment)

@@ -122,7 +122,7 @@ namespace Assets.Scripts
             //создается луч который определяет объект на который указывает курсор мыши
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
             //определяет место соприкосновения коллайдера луча и объекта
-            if (Physics.Raycast(ray, out hit))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerManager.ignorePreviewLayerMask))
             {
                 //определение объекта, на который указывает мышь и назначение его целью
                 target = hit.collider.transform;

@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Blocks;
 using Assets.Scripts.Events;
 using Assets.Scripts.GameManagement;
+using Assets.Scripts.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -69,27 +70,12 @@ namespace Assets.Scripts.Instruments
             EnableBlockPreview = true;
         }
 
-        protected void OnEnable()
-        {
-            if (enableBlockPreview)
-            {
-                Attachment.PointerEnter += Attachment_PointerEnter;
-                Attachment.PointerExit += Attachment_PointerExit;
-            }
-        }
-
-        protected void OnDisable()
-        {
-            Attachment.PointerEnter -= Attachment_PointerEnter;
-            Attachment.PointerExit -= Attachment_PointerExit;
-        }
-
         public void Update()
         {
             if (Input.GetMouseButtonDown(0))
             {
                 RaycastHit hit;
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, LayerManager.blockLayerMask))
                 {
                     if (hit.collider.tag == Tags.attachment.ToString())
                     {
@@ -102,7 +88,6 @@ namespace Assets.Scripts.Instruments
 
         protected void OnDestroy()
         {
-            OnDisable();
             BlockPrefabChanged -= OnBlockPrefabChanged;
             EnableBlockPreviewValueChanged -= OnEnableBlockPreviewValueChanged;
         }
@@ -195,7 +180,7 @@ namespace Assets.Scripts.Instruments
                 return;
             }
             RaycastHit hit;
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
+            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, LayerManager.blockLayerMask))
             {
                 if (hit.collider.tag == Tags.attachment.ToString())
                 {

@@ -41,7 +41,7 @@ namespace Assets.Scripts.Blocks
 
         public void Init()
         {
-            name = string.Format("BlockCluster {0}", Guid.NewGuid());
+            name = string.Format("BlockCluster {0}", gameObject.GetInstanceID());
             attachedBlockList = new List<Block>();
             Block.BlockDestroyed += RemoveBlock;
             if (ClusterCreated != null) ClusterCreated(this);
