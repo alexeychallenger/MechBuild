@@ -44,5 +44,16 @@ namespace Assets.Scripts.Utils
             );
             return resultVector;
         }
+
+        public static Vector3 AbsVector3(Vector3 vector)
+        {
+            Vector3 absVector = new Vector3
+            (
+                Mathf.Abs(vector.x),
+                Mathf.Abs(vector.y),
+                Mathf.Abs(vector.z)
+            );
+            return absVector;
+        }
     }
 }

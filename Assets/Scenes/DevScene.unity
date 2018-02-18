@@ -576,6 +576,11 @@ Prefab:
       propertyPath: blockManager
       value: 
       objectReference: {fileID: 619263760}
+    - target: {fileID: 114477938657677868, guid: aeacc00d494ee5845b12508c0035c2e7,
+        type: 2}
+      propertyPath: rotationAngle
+      value: 45
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: aeacc00d494ee5845b12508c0035c2e7, type: 2}
   m_IsPrefabParent: 0

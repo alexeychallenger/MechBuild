@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Utils;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -51,11 +52,10 @@ namespace Assets.Scripts.Blocks
             }
         }
 
-        public virtual void Init(Attachment targetAttachment)
+        public virtual void Init(Attachment targetAttachment, int attachmentIndex, Vector3 rotation)
         {
             SwitchPreview(false);
-
-            SetPosition(targetAttachment);
+            SetPosition(targetAttachment, attachmentIndex, rotation);
             blockCluster = targetAttachment.block.blockCluster;
             targetAttachment.block.blockCluster.AddBlock(this);
             targetAttachment.block.Attach(this);
@@ -63,7 +63,7 @@ namespace Assets.Scripts.Blocks
             OnBlockCreated(this);
         }
 
-        private void SwitchPreview(bool isPreview)
+        protected void SwitchPreview(bool isPreview)
         {
             this.isPreview = isPreview;
             SwitchLayer(isPreview ? LayerType.Preview : LayerType.Block);
@@ -72,7 +72,7 @@ namespace Assets.Scripts.Blocks
             colliderComponent.isTrigger = isPreview;
         }
 
-        private void SwitchLayer(LayerType layerType)
+        protected void SwitchLayer(LayerType layerType)
         {
             LayerManager.SwitchLayer(gameObject, layerType);
             foreach (Attachment attachent in attachments)
@@ -86,16 +86,34 @@ namespace Assets.Scripts.Blocks
             SwitchPreview(true);
         }
 
-        public virtual void ShowPreview(Attachment targetAttachment)
+        public virtual void ShowPreview(Attachment targetAttachment, int attachmentIndex, Vector3 rotation)
         {
-            SetPosition(targetAttachment);
+            SetPosition(targetAttachment, attachmentIndex, rotation);
         }
 
-        protected virtual void SetPosition(Attachment targetAttachment)
+        protected virtual void SetPosition(Attachment targetAttachment, int attachmentIndex, Vector3 rotation)
         {
-            transform.position = targetAttachment.transform.position;
-            transform.rotation = targetAttachment.transform.rotation;
-            transform.localPosition += GetSpawnPointOffset();
+            ResetPosition();
+            SwitchBaseAttachment(attachmentIndex);
+            
+            transform.Translate(targetAttachment.transform.position, Space.World);
+            transform.Rotate(targetAttachment.transform.rotation.eulerAngles, Space.World);
+
+            transform.Rotate(rotation);
+
+            Vector3 rotationDirection = currentBaseAttachment.transform.localRotation.eulerAngles;
+            Vector3 translateDirection = RoundUtils.AbsVector3(currentBaseAttachment.transform.localPosition);
+
+            transform.Rotate(rotationDirection);
+            transform.Translate(translateDirection);
+            
+        }
+
+        protected void ResetPosition()
+        {
+            SwitchBaseAttachment(0);
+            transform.position = Vector3.zero;
+            transform.rotation = new Quaternion();
         }
 
         protected void OnBlockCreated(Block block)
@@ -112,34 +130,44 @@ namespace Assets.Scripts.Blocks
         public Vector3 GetSpawnPointOffset()
         {
             Vector3 spawnPoint = currentBaseAttachment.transform.position - transform.position;
+            DbLog.LogFormat("local offset is {0}", spawnPoint);
             return spawnPoint;
         }
 
-        public void SwitchBaseAttachmentNext()
+        public int SwitchBaseAttachmentNext()
         {
             int currentAttachmentIndex = attachments.FindIndex((x) => x == currentBaseAttachment);
             int nextAttachmentIndex = (currentAttachmentIndex + 1) % attachments.Count();
             currentBaseAttachment = attachments[nextAttachmentIndex];
+            return nextAttachmentIndex;
         }
 
-        public void SwitchBaseAttachmentPrevious()
+        public int SwitchBaseAttachmentPrevious()
         {
             int currentAttachmentIndex = attachments.FindIndex((x) => x == currentBaseAttachment);
             int previousAttachmentIndex = (currentAttachmentIndex - 1);
-            previousAttachmentIndex = previousAttachmentIndex < 0 ? previousAttachmentIndex : (attachments.Count - 1);
+            previousAttachmentIndex = (previousAttachmentIndex >= 0) ? previousAttachmentIndex : (attachments.Count - 1);
             currentBaseAttachment = attachments[previousAttachmentIndex];
+            return previousAttachmentIndex;
         }
 
-        public void SwitchBaseAttachment(Attachment attachment)
+        public int GetCurrentAttachmantIndex()
         {
-            if (attachments.Contains(attachment))
+            int currentAttachmentIndex = attachments.FindIndex((x) => x == currentBaseAttachment);
+            return currentAttachmentIndex;
+        }
+
+        public Attachment SwitchBaseAttachment(int attachmentIndex)
+        {
+            if (attachmentIndex < 0 || attachmentIndex > (attachments.Count - 1))
             {
-                currentBaseAttachment = attachment;
+                DbLog.LogError(string.Format("{0} attachmentIndex {1} is out of attachments range", gameObject.name, attachmentIndex), this);
             }
             else
             {
-                DbLog.LogError(string.Format("{0} don't has such attachment {1}", gameObject.name, attachment), this);
+                currentBaseAttachment = attachments[attachmentIndex];
             }
+            return currentBaseAttachment;
         }
 
         protected void OnDestroy()

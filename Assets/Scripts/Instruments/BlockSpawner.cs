@@ -63,6 +63,10 @@ namespace Assets.Scripts.Instruments
             }
         }
 
+        public float rotationAngle = 90f;
+        protected Vector3 spawnRotation = new Vector3();
+        protected int spawnBaseAttachmentIndex;
+
         protected void Awake()
         {
             BlockPrefabChanged += OnBlockPrefabChanged;
@@ -72,18 +76,10 @@ namespace Assets.Scripts.Instruments
 
         public void Update()
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                RaycastHit hit;
-                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, LayerManager.blockLayerMask))
-                {
-                    if (hit.collider.tag == Tags.attachment.ToString())
-                    {
-                        SpawnBlock(hit.collider.GetComponent<Attachment>());
-                    }
-                }
-            }
-            ShowBlockPreview();
+            SpawnQuaternionInput();
+            SpawnPositionInput();
+            SpawnBlockInput();
+            ShowBlockPreviewInput();
         }
 
         protected void OnDestroy()
@@ -100,7 +96,7 @@ namespace Assets.Scripts.Instruments
                 return;
             }
             Block block = Instantiate(blockPrefab);
-            block.Init(targetAttachment);
+            block.Init(targetAttachment, spawnBaseAttachmentIndex, spawnRotation);
         }
 
         public void EnablePreviewBlock(Attachment targetAttachment)
@@ -111,33 +107,20 @@ namespace Assets.Scripts.Instruments
                 if (previewBlock == null) return;
             }
             previewBlock.gameObject.SetActive(true);
-            previewBlock.ShowPreview(targetAttachment);
+            previewBlock.ShowPreview(targetAttachment, spawnBaseAttachmentIndex, spawnRotation);
         }
 
         public void DisablePreviewBlock()
         {
-            if (previewBlock == null)
-                return;
+            if (previewBlock == null) return;
             previewBlock.gameObject.SetActive(false);
-        }
-
-        protected void Attachment_PointerEnter(Attachment attachment)
-        {
-            DbLog.Log("enter");
-            if (!enableBlockPreview) return;
-            EnablePreviewBlock(attachment);
-        }
-
-        protected void Attachment_PointerExit(Attachment attachment)
-        {
-            DbLog.Log("exit");
-            if (!enableBlockPreview) return;
-            DisablePreviewBlock();
         }
 
         protected void OnBlockPrefabChanged(ChangeValueEventArgs<Block> e)
         {
             DbLog.Log(string.Format("Block prefab changed from [{0}] to [{1}]", e.OldValue, e.NewValue), Color.magenta, this);
+            spawnRotation = new Vector3();
+            spawnBaseAttachmentIndex = 0;
             SpawnPreviewBlock();
         }
 
@@ -154,26 +137,38 @@ namespace Assets.Scripts.Instruments
             DbLog.Log(string.Format("Block preview {0}", e.NewValue ? "enabled" : "disabled"), Color.magenta, this);
         }
 
-        protected Block SpawnPreviewBlock()
+        protected void SpawnPreviewBlock()
         {
-            if(blockPrefab == null)
+            if(blockPrefab == null) 
             {
                 //DbLog.LogWarning("Block not selected for preview", this);
-                return null;
+                return;
             }
-            if (previewBlock != null)
-            {
-                Destroy(previewBlock);
-            }
+            if (previewBlock != null) Destroy(previewBlock);
 
             Block block = Instantiate(blockPrefab);
             block.InitPreview();
             block.gameObject.SetActive(false);
             previewBlock = block;
-            return block;
+            spawnBaseAttachmentIndex = previewBlock.GetCurrentAttachmantIndex();
         }
 
-        public void ShowBlockPreview()
+        protected void SpawnBlockInput()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, LayerManager.blockLayerMask))
+                {
+                    if (hit.collider.tag == Tags.attachment.ToString())
+                    {
+                        SpawnBlock(hit.collider.GetComponent<Attachment>());
+                    }
+                }
+            }
+        }
+
+        protected void ShowBlockPreviewInput()
         {
             if (!enableBlockPreview)
             {
@@ -193,6 +188,48 @@ namespace Assets.Scripts.Instruments
                 }
             }
             DisablePreviewBlock();
+        }
+        
+        protected void SpawnQuaternionInput()
+        {
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                spawnRotation += new Vector3(0, 0, rotationAngle);
+            }
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                spawnRotation += new Vector3(0, 0, -rotationAngle);
+            }
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                spawnRotation += new Vector3(0, rotationAngle, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                spawnRotation += new Vector3(0, -rotationAngle, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                spawnRotation += new Vector3(rotationAngle, 0, 0);
+            }
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                spawnRotation += new Vector3(-rotationAngle, 0, 0);
+            }
+        }
+
+        protected void SpawnPositionInput()
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                spawnBaseAttachmentIndex = previewBlock.SwitchBaseAttachmentNext();
+                DbLog.Log(string.Format("spawnBaseAttachment switched to {0}", spawnBaseAttachmentIndex), Color.yellow, this);
+            }
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                spawnBaseAttachmentIndex = previewBlock.SwitchBaseAttachmentPrevious();
+                DbLog.Log(string.Format("spawnBaseAttachment switched to {0}", spawnBaseAttachmentIndex), Color.yellow, this);
+            }
         }
     }
 }
