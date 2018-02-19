@@ -38,6 +38,11 @@ namespace Assets.Scripts.Blocks
             ConnectBlock(block);
         }
 
+        protected void Detach(Block block)
+        {
+            connectedBlocks.Remove(block);
+        }
+
         protected virtual void Awake()
         {
             currentBaseAttachment = attachments[0];
@@ -118,13 +123,17 @@ namespace Assets.Scripts.Blocks
 
         protected void OnBlockCreated(Block block)
         {
+
             if (BlockCreated != null) BlockCreated(block);
         }
 
         protected void ConnectBlock(Block block)
         {
+            if (connectedBlocks.Contains(block)) return;
+
             connectedBlocks.Add(block);
-            block.connectedBlocks.Add(this);
+            block.BlockInstanceDestroyed += Detach;
+            block.Attach(this);
         }
 
         public Vector3 GetSpawnPointOffset()
@@ -170,10 +179,23 @@ namespace Assets.Scripts.Blocks
             return currentBaseAttachment;
         }
 
+        public void DestroyBlock()
+        {
+            if (BlockDestroyed != null)
+            {
+                BlockDestroyed(this);
+                DbLog.Log(string.Format("Block destroyed {0}", this), Color.green, this);
+            }
+            if (BlockInstanceDestroyed != null)
+            {
+                BlockInstanceDestroyed(this);
+                DbLog.Log(string.Format("Block instance {0} destroyed", this), Color.green, this);
+            }
+            Destroy(gameObject);
+        }
+
         protected void OnDestroy()
         {
-            if (BlockDestroyed != null) BlockDestroyed(this);
-            if (BlockInstanceDestroyed != null) BlockInstanceDestroyed(this);
         }
     }
 }

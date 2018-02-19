@@ -132,7 +132,7 @@ namespace Assets.Scripts.Instruments
             }
             else
             {
-                if (previewBlock != null) Destroy(previewBlock);
+                if (previewBlock != null) Destroy(previewBlock.gameObject);
             }
             DbLog.Log(string.Format("Block preview {0}", e.NewValue ? "enabled" : "disabled"), Color.magenta, this);
         }
@@ -144,7 +144,7 @@ namespace Assets.Scripts.Instruments
                 //DbLog.LogWarning("Block not selected for preview", this);
                 return;
             }
-            if (previewBlock != null) Destroy(previewBlock);
+            if (previewBlock != null) Destroy(previewBlock.gameObject);
 
             Block block = Instantiate(blockPrefab);
             block.InitPreview();

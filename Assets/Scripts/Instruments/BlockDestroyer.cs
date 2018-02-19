@@ -1,7 +1,10 @@
-﻿using System;
+﻿using Assets.Scripts.Blocks;
+using Assets.Scripts.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.Scripts.Instruments
 {
@@ -13,6 +16,31 @@ namespace Assets.Scripts.Instruments
             {
                 return InstrumentType.Destroyer;
             }
+        }
+
+        public void Update()
+        {
+            BlockDestroyInput();
+        }
+
+        protected void BlockDestroyInput()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, LayerManager.blockLayerMask))
+                {
+                    if (hit.collider.tag == Tags.attachment.ToString())
+                    {
+                        DestroyBlock(hit.collider.GetComponent<Attachment>().block);
+                    }
+                }
+            }
+        }
+
+        protected void DestroyBlock(Block block)
+        {
+            block.DestroyBlock();
         }
     }
 }
