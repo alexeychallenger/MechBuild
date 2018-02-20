@@ -7,7 +7,11 @@ namespace Assets.Scripts.Blocks
 {
     public enum BlockType
     {
-        Block,
-        HingeBlock
+        Cube,
+        Prism,
+        Beam_1x2x1,
+        HingeCube,
+        MotorisedHingeCube,
+        MotorisedWheel_1x2x2
     }
 }

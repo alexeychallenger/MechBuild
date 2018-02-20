@@ -376,6 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed1cdd31986ea634fbf19811b901478c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 1
   blockCluster: {fileID: 0}
   attachments:
   - {fileID: 114678931056637844}

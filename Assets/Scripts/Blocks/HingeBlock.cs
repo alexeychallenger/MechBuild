@@ -3,25 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Assets.Scripts.Blocks
 {
     public class HingeBlock : Block
     {
-        public override BlockType Type
-        {
-            get
-            {
-                return BlockType.HingeBlock;
-            }
-        }
-
         public HingeJoint hingeJointComponent;
 
         public override void Init(Attachment targetAttachment, int baseAttachmentIndex, Vector3 rotation)
         {
             SwitchPreview(false);
-            
+
             SetPosition(targetAttachment, baseAttachmentIndex, rotation);
             blockCluster = BlockCluster.SpawnCluster(transform.position);
             blockCluster.AddBlock(this);

@@ -10,13 +10,7 @@ namespace Assets.Scripts.Blocks
 {
     public class Block : MonoBehaviour
     {
-        public virtual BlockType Type
-        {
-            get
-            {
-                return BlockType.Block;
-            }
-        }
+        public BlockType type;
         public BlockCluster blockCluster;
         public List<Attachment> attachments;
         public List<Block> connectedBlocks;
@@ -72,7 +66,7 @@ namespace Assets.Scripts.Blocks
         {
             this.isPreview = isPreview;
             SwitchLayer(isPreview ? LayerType.Preview : LayerType.Block);
-            name = string.Format("{0} {1} {2}", Type, isPreview ? "(preview)" : "", gameObject.GetInstanceID());
+            name = string.Format("{0} {1} {2}", type, isPreview ? "(preview)" : "", gameObject.GetInstanceID());
             meshRendererComponent.material = isPreview ? previewMaterial : defaultMaterial;
             colliderComponent.isTrigger = isPreview;
         }
