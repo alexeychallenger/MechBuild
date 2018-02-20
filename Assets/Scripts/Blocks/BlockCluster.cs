@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Assets.Scripts.Events;
 using UnityEngine;
 
 namespace Assets.Scripts.Blocks
@@ -44,6 +45,7 @@ namespace Assets.Scripts.Blocks
         {
             attachedBlockList.Add(block);
             RegisterBlock(block);
+            rigidbodyComponent.mass += block.Mass;
         }
 
         public void AddBlockRange(Block[] blockArray)
@@ -59,9 +61,14 @@ namespace Assets.Scripts.Blocks
             block.transform.SetParent(transform);
             block.blockCluster = this;
 
-            //DbLog.LogError(string.Format("{0} attachmentIndex {1} is out of attachments range", gameObject.name, attachmentIndex), this);
-
+            block.MassChanged += UpdateBlockMass;
             block.BlockInstanceDestroyed += OnBlockDestroyed;
+        }
+
+        private void UpdateBlockMass(ChangeValueEventArgs<float> e)
+        {
+            var valueDelta = e.NewValue - e.OldValue;
+            rigidbodyComponent.mass += valueDelta;
         }
 
         public void OnBlockDestroyed(Block block)
@@ -78,6 +85,9 @@ namespace Assets.Scripts.Blocks
         {
             DbLog.Log(string.Format("RemoveBlock {0}", block), Color.green, this);
             block.BlockInstanceDestroyed -= OnBlockDestroyed;
+            block.MassChanged -= UpdateBlockMass;
+
+            rigidbodyComponent.mass -= block.Mass;
             block.blockCluster = null;
             attachedBlockList.Remove(block);
 

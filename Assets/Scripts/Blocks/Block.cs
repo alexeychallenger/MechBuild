@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Utils;
+﻿using Assets.Scripts.Events;
+using Assets.Scripts.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,6 +20,31 @@ namespace Assets.Scripts.Blocks
         public Material defaultMaterial;
         public Material previewMaterial;
         public Collider colliderComponent;
+
+        public event Action<ChangeValueEventArgs<float>> MassChanged;
+
+        [SerializeField] protected float mass = 1f;
+        public float Mass
+        {
+            get
+            {
+                return mass;
+            }
+            set
+            {
+                value = Mathf.Clamp(value, 0, value);
+                var oldValue = mass;
+                if (value != oldValue)
+                {
+                    mass = value;
+                    if (MassChanged != null)
+                    {
+                        MassChanged(new ChangeValueEventArgs<float>(oldValue, value));
+                    }
+                }
+            }
+        }
+
         
         [HideInInspector] public Attachment currentBaseAttachment;
         public static event Action<Block> BlockCreated;

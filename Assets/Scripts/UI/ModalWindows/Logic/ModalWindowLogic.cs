@@ -17,6 +17,7 @@ namespace Assets.Scripts.UI.ModalWindows.Logic
         public virtual void Init(ModalParameters parameters)
         {
             Type = parameters.Type;
+            IsReady = true;
         }
 
         public virtual Action GetCloseCallback()

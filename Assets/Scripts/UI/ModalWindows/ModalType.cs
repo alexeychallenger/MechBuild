@@ -13,6 +13,7 @@ namespace Assets.Scripts.UI.ModalWindows
         InfoModal,
         ShipTalentModal,
         CannonTalentModal,
-        SettingsModal
+        SettingsModal,
+        BlockConfigModal
     }
 }
