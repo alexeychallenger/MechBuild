@@ -237,8 +237,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1648594759}
   m_HandleRect: {fileID: 1648594758}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0.99999547
+  m_Value: 0
+  m_Size: 0.99999714
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -466,7 +466,7 @@ Transform:
   m_GameObject: {fileID: 363236042}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1000, y: 1000, z: 100}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1956701975}
   - {fileID: 346561573}
@@ -1177,7 +1177,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0.0059493794, y: -0.00027466}
+  m_AnchoredPosition: {x: 0.0015596205, y: -0.00027466}
   m_SizeDelta: {x: 0, y: 15.199997}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &957330072
@@ -2261,6 +2261,11 @@ GameObject:
   - component: {fileID: 1956701975}
   - component: {fileID: 1956701974}
   - component: {fileID: 1956701973}
+  - component: {fileID: 1956701976}
+  - component: {fileID: 1956701980}
+  - component: {fileID: 1956701979}
+  - component: {fileID: 1956701978}
+  - component: {fileID: 1956701977}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: terrain
@@ -2322,6 +2327,66 @@ Transform:
   m_Father: {fileID: 363236043}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1956701976
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1956701972}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 500, y: 500, z: 10}
+  m_Center: {x: 250, y: 250, z: 505}
+--- !u!65 &1956701977
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1956701972}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 500, y: 10, z: 500}
+  m_Center: {x: 250, y: 505, z: 250}
+--- !u!65 &1956701978
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1956701972}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 500, z: 500}
+  m_Center: {x: 5, y: 250, z: 250}
+--- !u!65 &1956701979
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1956701972}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 10, y: 500, z: 500}
+  m_Center: {x: 505, y: 250, z: 250}
+--- !u!65 &1956701980
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1956701972}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 500, y: 500, z: 10}
+  m_Center: {x: 250, y: 250, z: 5}
 --- !u!4 &2002222581 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4045862047882458, guid: 67d76e3c27f602c4b94a21c87cc31128,

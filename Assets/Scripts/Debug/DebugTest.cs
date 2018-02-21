@@ -34,9 +34,39 @@ namespace Assets.Scripts
             {
                 gameManager.sceneLoader.LoadScene(Scenes.DevScene);
             }
-            if (Input.GetKeyDown(KeyCode.Z))
+
+            if (Input.GetKeyDown(KeyCode.F10))
             {
-                gameManager.modalManager.CreateModal(new InfoModalParameters("Info", "Test message"));
+                Time.timeScale = Mathf.Clamp(Time.timeScale - 0.05f, 0f, 10f);
+            }
+
+            if (Input.GetKeyDown(KeyCode.F11))
+            {
+                Time.timeScale = 1f;
+            }
+
+            if (Input.GetKeyDown(KeyCode.F12))
+            {
+                Time.timeScale = Mathf.Clamp(Time.timeScale + 0.05f, 0f, 10f);
+            }
+
+            float gravityCoef = 10f;
+
+            if (Input.GetKeyDown(KeyCode.Home))
+            {
+                Physics.gravity = Vector3.up * gravityCoef;
+            }
+            if (Input.GetKeyDown(KeyCode.End))
+            {
+                Physics.gravity = Vector3.down * gravityCoef;
+            }
+            if (Input.GetKeyDown(KeyCode.Delete))
+            {
+                Physics.gravity = Vector3.left * gravityCoef;
+            }
+            if (Input.GetKeyDown(KeyCode.PageDown))
+            {
+                Physics.gravity = Vector3.right * gravityCoef;
             }
         }
     }
