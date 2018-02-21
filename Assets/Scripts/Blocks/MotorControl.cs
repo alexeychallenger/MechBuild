@@ -162,7 +162,13 @@ namespace Assets.Scripts.Blocks
 
         protected void Start()
         {
-            hingeJointComponent = hingeBlock.hingeJointComponent;
+            hingeJointComponent = hingeBlock.HingeJointComponent;
+            hingeBlock.HingeJointComponentChanged += UpdateHingeJointComponent;
+        }
+
+        protected void UpdateHingeJointComponent(ChangeValueEventArgs<HingeJoint> e)
+        {
+            hingeJointComponent = e.NewValue;
         }
 
         protected void Update()
@@ -171,6 +177,11 @@ namespace Assets.Scripts.Blocks
 
             MotorInput();
             MotorDrive();
+        }
+
+        protected void OnDestroy()
+        {
+            hingeBlock.HingeJointComponentChanged -= UpdateHingeJointComponent;
         }
 
         protected void MotorInput()
@@ -215,7 +226,6 @@ namespace Assets.Scripts.Blocks
                     };
                     break;
             }
-
         }
     }
 }

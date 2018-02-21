@@ -12,7 +12,29 @@ namespace Assets.Scripts.Blocks
     public class Block : MonoBehaviour
     {
         public BlockType type;
-        public BlockCluster blockCluster;
+        private BlockCluster blockCluster;
+        public BlockCluster BlockCluster
+        {
+            get
+            {
+                return blockCluster;
+            }
+            set
+            {
+                var oldValue = blockCluster;
+                if (value != oldValue)
+                {
+                    blockCluster = value;
+                    if (BlockClusterChanged != null)
+                    {
+                        BlockClusterChanged(new ChangeValueEventArgs<BlockCluster>(oldValue, value));
+                    }
+                }
+            }
+        }
+        public event Action<ChangeValueEventArgs<BlockCluster>> BlockClusterChanged;
+
+
         public List<Attachment> attachments;
         public List<Block> connectedBlocks;
         [Space]
@@ -20,6 +42,8 @@ namespace Assets.Scripts.Blocks
         public Material defaultMaterial;
         public Material previewMaterial;
         public Collider colliderComponent;
+
+        public Attachment connectedAttachment;
 
         public event Action<ChangeValueEventArgs<float>> MassChanged;
 
@@ -70,22 +94,35 @@ namespace Assets.Scripts.Blocks
 
         protected virtual void Start()
         {
-            if (blockCluster == null && !isPreview)
+            if (BlockCluster == null && !isPreview)
             {
-                BlockCluster blockCluster = BlockCluster.SpawnCluster(transform.position);
-                blockCluster.AddBlock(this);
+                RegisterBlockCluster(BlockCluster.SpawnCluster(transform.position));
             }
         }
 
         public virtual void Init(Attachment targetAttachment, int attachmentIndex, Vector3 rotation)
         {
+            RegisterAttachment(targetAttachment);
+
             SwitchPreview(false);
             SetPosition(targetAttachment, attachmentIndex, rotation);
-            blockCluster = targetAttachment.block.blockCluster;
-            targetAttachment.block.blockCluster.AddBlock(this);
+
+            RegisterBlockCluster(targetAttachment.block.BlockCluster);
             targetAttachment.block.Attach(this);
 
             OnBlockCreated(this);
+        }
+
+        protected virtual void RegisterAttachment(Attachment targetAttachment)
+        {
+            connectedAttachment = targetAttachment;
+            connectedAttachment.AttachmentDestroyed += CleanAttachment;
+        }
+
+        protected virtual void CleanAttachment(Attachment attachment)
+        {
+            connectedAttachment.AttachmentDestroyed -= CleanAttachment;
+            connectedAttachment = null;
         }
 
         protected void SwitchPreview(bool isPreview)
@@ -156,6 +193,14 @@ namespace Assets.Scripts.Blocks
             block.Attach(this);
         }
 
+        public virtual void RegisterBlockCluster(BlockCluster blockCluster)
+        {
+            if (BlockCluster == blockCluster) return;
+
+            BlockCluster = blockCluster;
+            BlockCluster.AddBlock(this);
+        }
+
         public Vector3 GetSpawnPointOffset()
         {
             Vector3 spawnPoint = currentBaseAttachment.transform.position - transform.position;
@@ -180,7 +225,7 @@ namespace Assets.Scripts.Blocks
             return previousAttachmentIndex;
         }
 
-        public int GetCurrentAttachmantIndex()
+        public int GetCurrentAttachmentIndex()
         {
             int currentAttachmentIndex = attachments.FindIndex((x) => x == currentBaseAttachment);
             return currentAttachmentIndex;

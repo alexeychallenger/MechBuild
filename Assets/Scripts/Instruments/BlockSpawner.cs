@@ -150,7 +150,7 @@ namespace Assets.Scripts.Instruments
             block.InitPreview();
             block.gameObject.SetActive(false);
             previewBlock = block;
-            spawnBaseAttachmentIndex = previewBlock.GetCurrentAttachmantIndex();
+            spawnBaseAttachmentIndex = previewBlock.GetCurrentAttachmentIndex();
         }
 
         protected void SpawnBlockInput()

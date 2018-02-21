@@ -13,6 +13,7 @@ namespace Assets.Scripts.Blocks
         public List<Block> attachedBlockList;
         public static event Action<BlockCluster> ClusterCreated;
         public static event Action<BlockCluster> ClusterDestroyed;
+        public event Action<ChangeValueEventArgs<BlockCluster>> ClusterDivided;
         
         public static BlockCluster SpawnCluster()
         {
@@ -43,6 +44,10 @@ namespace Assets.Scripts.Blocks
 
         public void AddBlock(Block block)
         {
+            if (attachedBlockList.Contains(block))
+            {
+                return;
+            }
             attachedBlockList.Add(block);
             RegisterBlock(block);
             rigidbodyComponent.mass += block.Mass;
@@ -59,7 +64,7 @@ namespace Assets.Scripts.Blocks
         private void RegisterBlock(Block block)
         {
             block.transform.SetParent(transform);
-            block.blockCluster = this;
+            block.RegisterBlockCluster(this);
 
             block.MassChanged += UpdateBlockMass;
             block.BlockInstanceDestroyed += OnBlockDestroyed;
@@ -88,12 +93,13 @@ namespace Assets.Scripts.Blocks
             block.MassChanged -= UpdateBlockMass;
 
             rigidbodyComponent.mass -= block.Mass;
-            block.blockCluster = null;
+            block.BlockCluster = null;
             attachedBlockList.Remove(block);
 
             if (attachedBlockList.Count == 0)
             {
                 DbLog.Log(string.Format("AttachedBlocks is 0. Deleting cluster", block), Color.green, this);
+                transform.DetachChildren();
                 Destroy(gameObject);
             }
         }
@@ -113,12 +119,12 @@ namespace Assets.Scripts.Blocks
             {
                 foreach (List<Block> cluserData in newClusterDataList)
                 {
+                    BlockCluster blockCluster = SpawnCluster(transform.position);
                     foreach (Block block in cluserData)
                     {
                         RemoveBlock(block);
+                        block.RegisterBlockCluster(blockCluster);
                     }
-                    BlockCluster blockCluster = SpawnCluster();
-                    blockCluster.AddBlockRange(cluserData.ToArray());
 
                     DbLog.Log(string.Format("Create new cluster {0}", blockCluster), Color.green, this);
                 }
