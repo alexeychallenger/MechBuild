@@ -12,36 +12,42 @@ namespace Assets.Scripts.UI.ModalWindows.Elements.BlockConfig
     public class BaseBlockConfigPanelController : BlockConfigPanelController
     {
         public InputField massInputField;
+        public Toggle gravityToggle;
+        public Toggle freezeToggle;
 
         protected Block block;
 
         public override void Init(BlockConfigPanelParameters parameters)
         {
-
             base.Init(parameters);
             var panelParameters = parameters as BaseBlockConfigPanelParameters;
             block = panelParameters.block;
-            block.MassChanged += UpdateMassText;
-            
-            UpdateMassText(block.Mass);
+            block.MassValueChanged += UpdateTextFields;
+            block.UseGravityValueChanged += UpdateTextFields;
+            block.IsFreezeValueChanged += UpdateTextFields;
+            UpdateTextFields();
         }
 
         private void OnDestroy()
         {
             if (block != null)
             {
-                block.MassChanged -= UpdateMassText;
+                block.MassValueChanged -= UpdateTextFields;
+                block.UseGravityValueChanged -= UpdateTextFields;
+                block.IsFreezeValueChanged -= UpdateTextFields;
             }
         }
 
-        private void UpdateMassText(ChangeValueEventArgs<float> e)
+        private void UpdateTextFields<T>(ChangeValueEventArgs<T> e)
         {
-            UpdateMassText(e.NewValue);
+            UpdateTextFields();
         }
 
-        private void UpdateMassText(float newValue)
+        private void UpdateTextFields()
         {
-            massInputField.text = massInputField.text = string.Format("{0}", newValue);
+            massInputField.text = massInputField.text = string.Format("{0}", block.Mass);
+            gravityToggle.isOn = block.UseGravity;
+            freezeToggle.isOn = block.IsFreeze;
         }
 
         public void SaveMassValue()
@@ -50,6 +56,16 @@ namespace Assets.Scripts.UI.ModalWindows.Elements.BlockConfig
             {
                 block.Mass = Convert.ToSingle(massInputField.text);
             }
+        }
+
+        public void SaveGravityValue()
+        {
+            block.UseGravity = gravityToggle.isOn;
+        }
+
+        public void SaveFreezeValue()
+        {
+            block.IsFreeze = freezeToggle.isOn;
         }
     }
 }

@@ -10,6 +10,9 @@ namespace Assets.Scripts.Blocks
 {
     public class HingeBlock : Block
     {
+        public bool useAutomaticConnectionAnchor = true;
+        public Vector3 connectionAnchor;
+        public Vector3 conectionAxis;
         protected HingeJoint hingeJointComponent;
         public event Action<ChangeValueEventArgs<HingeJoint>> HingeJointComponentChanged;
         public HingeJoint HingeJointComponent
@@ -63,7 +66,8 @@ namespace Assets.Scripts.Blocks
 
             HingeJointComponent = BlockCluster.gameObject.AddComponent<HingeJoint>();
             HingeJointComponent.connectedBody = targetAttachment.block.BlockCluster.rigidbodyComponent;
-            HingeJointComponent.axis = GetSpawnPointOffset();
+            HingeJointComponent.anchor = useAutomaticConnectionAnchor ? GetSpawnPointOffset() : connectionAnchor;
+            HingeJointComponent.axis = transform.TransformDirection(conectionAxis);// GetSpawnPointOffset();
         }
 
         protected void UpdateAttachmentBlockCluster(ChangeValueEventArgs<BlockCluster> e)

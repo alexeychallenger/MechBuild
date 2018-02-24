@@ -34,6 +34,45 @@ namespace Assets.Scripts.Blocks
         }
         public event Action<ChangeValueEventArgs<BlockCluster>> BlockClusterChanged;
 
+        public bool UseGravity
+        {
+            get
+            {
+                return blockCluster.rigidbodyComponent.useGravity;
+            }
+            set
+            {
+                var oldValue = blockCluster.rigidbodyComponent.useGravity;
+                if (value != oldValue)
+                {
+                    blockCluster.rigidbodyComponent.useGravity = value;
+                    if (UseGravityValueChanged != null)
+                    {
+                        UseGravityValueChanged(new ChangeValueEventArgs<bool>(oldValue, value));
+                    }
+                }
+            }
+        }
+
+        public bool IsFreeze
+        {
+            get
+            {
+                return blockCluster.rigidbodyComponent.isKinematic;
+            }
+            set
+            {
+                var oldValue = blockCluster.rigidbodyComponent.isKinematic;
+                if (value != oldValue)
+                {
+                    blockCluster.rigidbodyComponent.isKinematic = value;
+                    if (IsFreezeValueChanged != null)
+                    {
+                        IsFreezeValueChanged(new ChangeValueEventArgs<bool>(oldValue, value));
+                    }
+                }
+            }
+        }
 
         public List<Attachment> attachments;
         public List<Block> connectedBlocks;
@@ -45,7 +84,9 @@ namespace Assets.Scripts.Blocks
 
         public Attachment connectedAttachment;
 
-        public event Action<ChangeValueEventArgs<float>> MassChanged;
+        public event Action<ChangeValueEventArgs<float>> MassValueChanged;
+        public event Action<ChangeValueEventArgs<bool>> UseGravityValueChanged;
+        public event Action<ChangeValueEventArgs<bool>> IsFreezeValueChanged;
 
         [SerializeField] protected float mass = 1f;
         public float Mass
@@ -61,9 +102,9 @@ namespace Assets.Scripts.Blocks
                 if (value != oldValue)
                 {
                     mass = value;
-                    if (MassChanged != null)
+                    if (MassValueChanged != null)
                     {
-                        MassChanged(new ChangeValueEventArgs<float>(oldValue, value));
+                        MassValueChanged(new ChangeValueEventArgs<float>(oldValue, value));
                     }
                 }
             }

@@ -14,6 +14,19 @@ namespace Assets.Scripts.Blocks
         public static event Action<BlockCluster> ClusterCreated;
         public static event Action<BlockCluster> ClusterDestroyed;
         public event Action<ChangeValueEventArgs<BlockCluster>> ClusterDivided;
+
+        public bool IsKinematic
+        {
+            get
+            {
+                return rigidbodyComponent.isKinematic;
+            }
+            set
+            {
+                rigidbodyComponent.isKinematic = value;
+            }
+        }
+
         
         public static BlockCluster SpawnCluster()
         {
@@ -66,7 +79,7 @@ namespace Assets.Scripts.Blocks
             block.transform.SetParent(transform);
             block.RegisterBlockCluster(this);
 
-            block.MassChanged += UpdateBlockMass;
+            block.MassValueChanged += UpdateBlockMass;
             block.BlockInstanceDestroyed += OnBlockDestroyed;
         }
 
@@ -90,7 +103,7 @@ namespace Assets.Scripts.Blocks
         {
             DbLog.Log(string.Format("RemoveBlock {0}", block), Color.green, this);
             block.BlockInstanceDestroyed -= OnBlockDestroyed;
-            block.MassChanged -= UpdateBlockMass;
+            block.MassValueChanged -= UpdateBlockMass;
 
             rigidbodyComponent.mass -= block.Mass;
             block.BlockCluster = null;

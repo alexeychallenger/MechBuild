@@ -11,6 +11,7 @@ namespace Assets.Scripts.Blocks
     {
         [SerializeField] protected float motorForce = 100f;
         [SerializeField] protected float motorVelocity = 100f;
+        [SerializeField] protected float motorDamper = 100f;
         [SerializeField] protected bool freespin;
         [SerializeField] protected KeyCode forwardAxisKey = KeyCode.UpArrow;
         [SerializeField] protected KeyCode backAxisKey = KeyCode.DownArrow;
@@ -206,9 +207,18 @@ namespace Assets.Scripts.Blocks
             {
                 case MotorState.DriveOff:
                     hingeJointComponent.useMotor = false;
+                    hingeJointComponent.useSpring = true;
+                    hingeJointComponent.spring = new JointSpring
+                    {
+                        spring = motorForce,
+                        damper = motorDamper,
+                        targetPosition = Vector3.Angle(transform.position, hingeJointComponent.connectedBody.position)
+                    };
+
                     break;
                 case MotorState.DriveForward:
                     hingeJointComponent.useMotor = true;
+                    hingeJointComponent.useSpring = false;
                     hingeJointComponent.motor = new JointMotor
                     {
                         targetVelocity = MotorVelocity * (isReverse ? -1 : 1),
@@ -218,6 +228,7 @@ namespace Assets.Scripts.Blocks
                     break;
                 case MotorState.DriveBack:
                     hingeJointComponent.useMotor = true;
+                    hingeJointComponent.useSpring = false;
                     hingeJointComponent.motor = new JointMotor
                     {
                         targetVelocity = -MotorVelocity * (isReverse ? -1 : 1),

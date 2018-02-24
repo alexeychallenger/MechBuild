@@ -19,8 +19,17 @@ namespace Assets.Scripts.Instruments
             GameObject blockObject = block.gameObject;
             CheckHingeBlock(parameters, blockObject);
             CheckMotorControl(parameters, blockObject);
-
+            CheckLimitControl(parameters, blockObject);
             return parameters;
+        }
+
+        private static void CheckLimitControl(BlockConfigModalParameters parameters, GameObject blockObject)
+        {
+            LimitControl limitControl = blockObject.GetComponent<LimitControl>();
+            if (limitControl != null)
+            {
+                parameters.panelParametersList.Add(new LimitBlockConfigPanelParameters(limitControl));
+            }
         }
 
         private static void CheckMotorControl(BlockConfigModalParameters parameters, GameObject blockObject)

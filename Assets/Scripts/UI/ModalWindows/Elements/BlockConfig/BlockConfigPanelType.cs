@@ -9,6 +9,7 @@ namespace Assets.Scripts.UI.ModalWindows.Elements.BlockConfig
     {
         BaseBlockConfigPanel,
         HingeBlockConfigPanel,
-        MotorBlockConfigPanel
+        MotorBlockConfigPanel,
+        LimitBlockConfigPanel
     }
 }

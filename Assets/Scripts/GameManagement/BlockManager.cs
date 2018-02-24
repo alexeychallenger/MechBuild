@@ -14,6 +14,7 @@ namespace Assets.Scripts.GameManagement
         [HideInInspector] public List<Block> blockList = new List<Block>();
         [HideInInspector] public List<BlockCluster> clusterList = new List<BlockCluster>();
         [HideInInspector] public bool useGravity;
+        [HideInInspector] public bool isFreeze;
 
         protected void Awake()
         {
@@ -60,9 +61,21 @@ namespace Assets.Scripts.GameManagement
             useGravity = !useGravity;
             foreach(BlockCluster blockCluster in clusterList)
             {
-                blockCluster.GetComponent<Rigidbody>().useGravity = useGravity;
+                blockCluster.rigidbodyComponent.useGravity = useGravity;
             }
             DbLog.Log(string.Format("Gravity switched to {0} state", useGravity), Color.blue, this);
         }
+
+        public void SwitchFreeze()
+        {
+            isFreeze = !isFreeze;
+            foreach (BlockCluster blockCluster in clusterList)
+            {
+                blockCluster.rigidbodyComponent.isKinematic = isFreeze;
+            }
+            DbLog.Log(string.Format("Freeze switched to {0} state", isFreeze), Color.blue, this);
+        }
+
+        
     }
 }

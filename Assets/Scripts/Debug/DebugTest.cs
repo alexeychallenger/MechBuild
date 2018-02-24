@@ -50,7 +50,7 @@ namespace Assets.Scripts
                 Time.timeScale = Mathf.Clamp(Time.timeScale + 0.05f, 0f, 10f);
             }
 
-            float gravityCoef = 10f;
+            float gravityCoef = 1f;
 
             if (Input.GetKeyDown(KeyCode.Home))
             {

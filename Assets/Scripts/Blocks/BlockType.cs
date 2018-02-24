@@ -12,6 +12,8 @@ namespace Assets.Scripts.Blocks
         Beam_1x2x1,
         HingeCube,
         MotorisedHingeCube,
-        MotorisedWheel_1x2x2
+        MotorisedWheel_1x2x2,
+        Piston,
+        Steering
     }
 }

@@ -40,17 +40,7 @@ namespace Assets.Scripts.UI.ModalWindows.Elements.BlockConfig
             UpdateTextFields();
         }
 
-        protected void UpdateTextFields(ChangeValueEventArgs<bool> e)
-        {
-            UpdateTextFields();
-        }
-
-        protected void UpdateTextFields(ChangeValueEventArgs<float> e)
-        {
-            UpdateTextFields();
-        }
-
-        protected void UpdateTextFields(ChangeValueEventArgs<KeyCode> e)
+        protected void UpdateTextFields<T>(ChangeValueEventArgs<T> e)
         {
             UpdateTextFields();
         }
