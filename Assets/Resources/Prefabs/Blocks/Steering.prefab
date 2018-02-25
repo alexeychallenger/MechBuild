@@ -210,10 +210,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   motorForce: 100
   motorVelocity: 100
+  motorDamper: 0
   freespin: 0
   forwardAxisKey: 275
   backAxisKey: 276
   isReverse: 0
+  isFixable: 0
   state: 0
   hingeBlock: {fileID: 114574225794816566}
   hingeJointComponent: {fileID: 0}

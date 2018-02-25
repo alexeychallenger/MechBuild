@@ -17,6 +17,7 @@ namespace Assets.Scripts.UI.ModalWindows.Elements.BlockConfig
         public InputField forwardKeyInputField;
         public InputField backKeyInputField;
         public Toggle freeSpinToggle;
+        public Toggle fixableToggle;
         public Toggle reverseToggle;
 
         protected KeyCode forwardKeyBackup;
@@ -36,7 +37,8 @@ namespace Assets.Scripts.UI.ModalWindows.Elements.BlockConfig
             motorControl.Reverced += UpdateTextFields;
             motorControl.ForwardAxisKeyChanged += UpdateTextFields;
             motorControl.BackAxisKeyChanged += UpdateTextFields;
-            
+            motorControl.IsFixableValueChanged += UpdateTextFields;
+
             UpdateTextFields();
         }
 
@@ -51,7 +53,7 @@ namespace Assets.Scripts.UI.ModalWindows.Elements.BlockConfig
             forceInputField.text = string.Format("{0}", motorControl.MotorForce);
             freeSpinToggle.isOn = motorControl.Freespin;
             reverseToggle.isOn = motorControl.IsReverse;
-            
+            fixableToggle.isOn = motorControl.IsFixable;
             forwardKeyBackup = motorControl.ForwardAxisKey;
             forwardKeyInputField.text = string.Format("{0}", motorControl.ForwardAxisKey);
             backKeyBackup = motorControl.BackAxisKey;
@@ -66,6 +68,7 @@ namespace Assets.Scripts.UI.ModalWindows.Elements.BlockConfig
             motorControl.Reverced -= UpdateTextFields;
             motorControl.ForwardAxisKeyChanged -= UpdateTextFields;
             motorControl.BackAxisKeyChanged -= UpdateTextFields;
+            motorControl.IsFixableValueChanged -= UpdateTextFields;
         }
 
         public void SaveVelocity()
@@ -81,6 +84,11 @@ namespace Assets.Scripts.UI.ModalWindows.Elements.BlockConfig
         public void SaveFreeSpin()
         {
             motorControl.Freespin = freeSpinToggle.isOn;
+        }
+
+        public void SaveFixable()
+        {
+            motorControl.IsFixable = fixableToggle.isOn;
         }
 
         public void SaveReverce()

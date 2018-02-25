@@ -16,6 +16,8 @@ namespace Assets.Scripts.Blocks
         [SerializeField] protected KeyCode forwardAxisKey = KeyCode.UpArrow;
         [SerializeField] protected KeyCode backAxisKey = KeyCode.DownArrow;
         [SerializeField] protected bool isReverse;
+        [SerializeField] protected bool isFixable;
+
 
         public enum MotorState
         {
@@ -28,6 +30,7 @@ namespace Assets.Scripts.Blocks
         public event Action<ChangeValueEventArgs<float>> MotorForceChanged;
         public event Action<ChangeValueEventArgs<float>> MotorVelocityChanged;
         public event Action<ChangeValueEventArgs<bool>> FreespinChanged;
+        public event Action<ChangeValueEventArgs<bool>> IsFixableValueChanged;
         public event Action<ChangeValueEventArgs<KeyCode>> ForwardAxisKeyChanged;
         public event Action<ChangeValueEventArgs<KeyCode>> BackAxisKeyChanged;
 
@@ -46,6 +49,26 @@ namespace Assets.Scripts.Blocks
                     if (Reverced != null)
                     {
                         Reverced(new ChangeValueEventArgs<bool>(oldValue, value));
+                    }
+                }
+            }
+        }
+
+        public bool IsFixable
+        {
+            get
+            {
+                return isFixable;
+            }
+            set
+            {
+                var oldValue = isFixable;
+                if (value != oldValue)
+                {
+                    isFixable = value;
+                    if (IsFixableValueChanged != null)
+                    {
+                        IsFixableValueChanged(new ChangeValueEventArgs<bool>(oldValue, value));
                     }
                 }
             }
@@ -203,20 +226,21 @@ namespace Assets.Scripts.Blocks
 
         protected void MotorDrive()
         {
+            Debug.DrawLine(hingeBlock.transform.position, hingeBlock.transform.position + hingeBlock.transform.forward * 10f, Color.red);
+            Debug.DrawLine(hingeJointComponent.connectedBody.position, hingeJointComponent.connectedBody.position + hingeJointComponent.connectedBody.transform.forward * 10f, Color.blue);
+
+            DbLog.LogFormat("Current angle: {0}", hingeJointComponent.spring.targetPosition);
+
             switch (state)
             {
                 case MotorState.DriveOff:
+                    CalculateAngle();
+                    hingeJointComponent.useSpring = IsFixable;
                     hingeJointComponent.useMotor = false;
-                    hingeJointComponent.useSpring = true;
-                    hingeJointComponent.spring = new JointSpring
-                    {
-                        spring = motorForce,
-                        damper = motorDamper,
-                        targetPosition = Vector3.Angle(transform.position, hingeJointComponent.connectedBody.position)
-                    };
 
                     break;
                 case MotorState.DriveForward:
+                    isAngleCalculated = false;
                     hingeJointComponent.useMotor = true;
                     hingeJointComponent.useSpring = false;
                     hingeJointComponent.motor = new JointMotor
@@ -227,6 +251,7 @@ namespace Assets.Scripts.Blocks
                     };
                     break;
                 case MotorState.DriveBack:
+                    isAngleCalculated = false;
                     hingeJointComponent.useMotor = true;
                     hingeJointComponent.useSpring = false;
                     hingeJointComponent.motor = new JointMotor
@@ -237,6 +262,28 @@ namespace Assets.Scripts.Blocks
                     };
                     break;
             }
+        }
+
+        protected bool isAngleCalculated = false;
+
+        private void CalculateAngle()
+        {
+            if (isAngleCalculated) return;
+
+            hingeJointComponent.spring = new JointSpring
+            {
+                spring = motorForce,
+                damper = motorDamper,
+                targetPosition = Vector3.SignedAngle
+                        (
+                            hingeBlock.transform.forward,
+                            hingeJointComponent.connectedBody.transform.forward,
+                            hingeJointComponent.axis
+                        )
+            };
+
+            DbLog.LogFormat("New fixable angle: {0}", hingeJointComponent.spring.targetPosition);
+            isAngleCalculated = true;
         }
     }
 }

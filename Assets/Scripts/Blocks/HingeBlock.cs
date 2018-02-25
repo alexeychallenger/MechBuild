@@ -66,8 +66,15 @@ namespace Assets.Scripts.Blocks
 
             HingeJointComponent = BlockCluster.gameObject.AddComponent<HingeJoint>();
             HingeJointComponent.connectedBody = targetAttachment.block.BlockCluster.rigidbodyComponent;
-            HingeJointComponent.anchor = useAutomaticConnectionAnchor ? GetSpawnPointOffset() : connectionAnchor;
-            HingeJointComponent.axis = transform.TransformDirection(conectionAxis);// GetSpawnPointOffset();
+            HingeJointComponent.anchor = useAutomaticConnectionAnchor ? GetSpawnPointOffset() : GetSpawnAnchorPoint();
+            HingeJointComponent.axis = transform.TransformDirection(conectionAxis);// GetSpawnPointOffset()
+        }
+
+        private Vector3 GetSpawnAnchorPoint()
+        {
+            Vector3 offset = transform.TransformPoint(connectionAnchor) - transform.position;
+            DbLog.LogFormat("local offset is {0}", offset);
+            return offset;
         }
 
         protected void UpdateAttachmentBlockCluster(ChangeValueEventArgs<BlockCluster> e)
