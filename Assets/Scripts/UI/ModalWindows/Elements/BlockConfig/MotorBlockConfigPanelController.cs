@@ -15,6 +15,7 @@ namespace Assets.Scripts.UI.ModalWindows.Elements.BlockConfig
         public InputField velocityInputField;
         public InputField forceInputField;
         public InputField forwardKeyInputField;
+        public InputField damperInputField;
         public InputField backKeyInputField;
         public Toggle freeSpinToggle;
         public Toggle fixableToggle;
@@ -38,6 +39,7 @@ namespace Assets.Scripts.UI.ModalWindows.Elements.BlockConfig
             motorControl.ForwardAxisKeyChanged += UpdateTextFields;
             motorControl.BackAxisKeyChanged += UpdateTextFields;
             motorControl.IsFixableValueChanged += UpdateTextFields;
+            motorControl.MotorDamperChanged += UpdateTextFields;
 
             UpdateTextFields();
         }
@@ -51,6 +53,7 @@ namespace Assets.Scripts.UI.ModalWindows.Elements.BlockConfig
         {
             velocityInputField.text = string.Format("{0}", motorControl.MotorVelocity);
             forceInputField.text = string.Format("{0}", motorControl.MotorForce);
+            damperInputField.text = string.Format("{0}", motorControl.MotorDamper);
             freeSpinToggle.isOn = motorControl.Freespin;
             reverseToggle.isOn = motorControl.IsReverse;
             fixableToggle.isOn = motorControl.IsFixable;
@@ -69,6 +72,7 @@ namespace Assets.Scripts.UI.ModalWindows.Elements.BlockConfig
             motorControl.ForwardAxisKeyChanged -= UpdateTextFields;
             motorControl.BackAxisKeyChanged -= UpdateTextFields;
             motorControl.IsFixableValueChanged -= UpdateTextFields;
+            motorControl.MotorDamperChanged -= UpdateTextFields;
         }
 
         public void SaveVelocity()
@@ -79,6 +83,11 @@ namespace Assets.Scripts.UI.ModalWindows.Elements.BlockConfig
         public void SaveForce()
         {
             motorControl.MotorForce = Convert.ToSingle(forceInputField.text);
+        }
+
+        public void SaveDamper()
+        {
+            motorControl.MotorDamper = Convert.ToSingle(damperInputField.text);
         }
 
         public void SaveFreeSpin()

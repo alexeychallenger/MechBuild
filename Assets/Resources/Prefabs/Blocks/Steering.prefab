@@ -208,14 +208,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d58d1bde7c5a2f4e8f16d3f9eb6ea68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motorForce: 100
+  motorForce: 9999999
   motorVelocity: 100
   motorDamper: 0
   freespin: 0
   forwardAxisKey: 275
   backAxisKey: 276
   isReverse: 0
-  isFixable: 0
+  isFixable: 1
   state: 0
   hingeBlock: {fileID: 114574225794816566}
   hingeJointComponent: {fileID: 0}

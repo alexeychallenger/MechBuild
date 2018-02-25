@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Events;
+using Assets.Scripts.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,16 @@ namespace Assets.Scripts.Blocks
 {
     public class MotorControl : MonoBehaviour
     {
+        protected const float FIXABLE_FORCE = 100000f;
+
         [SerializeField] protected float motorForce = 100f;
         [SerializeField] protected float motorVelocity = 100f;
-        [SerializeField] protected float motorDamper = 100f;
+        [SerializeField] protected float motorDamper = 0f;
         [SerializeField] protected bool freespin;
         [SerializeField] protected KeyCode forwardAxisKey = KeyCode.UpArrow;
         [SerializeField] protected KeyCode backAxisKey = KeyCode.DownArrow;
         [SerializeField] protected bool isReverse;
-        [SerializeField] protected bool isFixable;
+        [SerializeField] protected bool isFixable = true;
 
 
         public enum MotorState
@@ -29,6 +32,7 @@ namespace Assets.Scripts.Blocks
         public event Action<ChangeValueEventArgs<bool>> Reverced;
         public event Action<ChangeValueEventArgs<float>> MotorForceChanged;
         public event Action<ChangeValueEventArgs<float>> MotorVelocityChanged;
+        public event Action<ChangeValueEventArgs<float>> MotorDamperChanged;
         public event Action<ChangeValueEventArgs<bool>> FreespinChanged;
         public event Action<ChangeValueEventArgs<bool>> IsFixableValueChanged;
         public event Action<ChangeValueEventArgs<KeyCode>> ForwardAxisKeyChanged;
@@ -137,6 +141,27 @@ namespace Assets.Scripts.Blocks
             }
         }
 
+        public float MotorDamper
+        {
+            get
+            {
+                return motorDamper;
+            }
+
+            set
+            {
+                var oldValue = motorDamper;
+                if (value != oldValue)
+                {
+                    motorDamper = value;
+                    if (MotorDamperChanged != null)
+                    {
+                        MotorDamperChanged(new ChangeValueEventArgs<float>(oldValue, value));
+                    }
+                }
+            }
+        }
+
         public KeyCode ForwardAxisKey
         {
             get
@@ -226,8 +251,9 @@ namespace Assets.Scripts.Blocks
 
         protected void MotorDrive()
         {
+            
             Debug.DrawLine(hingeBlock.transform.position, hingeBlock.transform.position + hingeBlock.transform.forward * 10f, Color.red);
-            Debug.DrawLine(hingeJointComponent.connectedBody.position, hingeJointComponent.connectedBody.position + hingeJointComponent.connectedBody.transform.forward * 10f, Color.blue);
+            Debug.DrawLine(hingeBlock.connectedAttachment.transform.position, hingeBlock.connectedAttachment.transform.position + hingeBlock.connectedAttachment.transform.forward * 10f, Color.blue);
 
             DbLog.LogFormat("Current angle: {0}", hingeJointComponent.spring.targetPosition);
 
@@ -272,15 +298,17 @@ namespace Assets.Scripts.Blocks
 
             hingeJointComponent.spring = new JointSpring
             {
-                spring = motorForce,
+                spring = FIXABLE_FORCE,
                 damper = motorDamper,
                 targetPosition = Vector3.SignedAngle
                         (
-                            hingeBlock.transform.forward,
-                            hingeJointComponent.connectedBody.transform.forward,
-                            hingeJointComponent.axis
+                            hingeBlock.transform.InverseTransformDirection(hingeBlock.connectedAttachment.transform.forward),
+                            hingeBlock.transform.InverseTransformDirection(hingeBlock.transform.forward),
+                            RoundUtils.AbsVector3(hingeJointComponent.axis)
                         )
             };
+            DbLog.LogFormat("Blue vector: {0}", hingeBlock.connectedAttachment.transform.forward);
+            DbLog.LogFormat("Red vector: {0}", hingeBlock.transform.forward);
 
             DbLog.LogFormat("New fixable angle: {0}", hingeJointComponent.spring.targetPosition);
             isAngleCalculated = true;
