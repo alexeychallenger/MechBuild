@@ -302,8 +302,8 @@ namespace Assets.Scripts.Blocks
                 damper = motorDamper,
                 targetPosition = Vector3.SignedAngle
                         (
-                            hingeBlock.transform.InverseTransformDirection(hingeBlock.connectedAttachment.transform.forward),
-                            hingeBlock.transform.InverseTransformDirection(hingeBlock.transform.forward),
+                            transform.InverseTransformDirection(hingeBlock.connectedAttachment.transform.forward),
+                            transform.InverseTransformDirection(hingeBlock.transform.forward),
                             RoundUtils.AbsVector3(hingeJointComponent.axis)
                         )
             };

@@ -10,11 +10,17 @@ namespace Assets.Scripts.Instruments
     {
         public abstract InstrumentType Type { get; }
 
+        public event Action<bool> ActiveStateSwitched;
+
         public void SwitchActive(bool state)
         {
             if (state != gameObject.activeSelf)
             {
                 gameObject.SetActive(state);
+                if (ActiveStateSwitched != null)
+                {
+                    ActiveStateSwitched(gameObject.activeSelf);
+                }
             }
         }
     }

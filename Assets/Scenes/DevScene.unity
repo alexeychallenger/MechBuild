@@ -237,7 +237,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1648594759}
   m_HandleRect: {fileID: 1648594758}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 0.99999714
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -626,6 +626,17 @@ Prefab:
       propertyPath: m_Text
       value: Create
       objectReference: {fileID: 0}
+    - target: {fileID: 114150391900755906, guid: a96cea6027dc9194aaeb1d5c5f355e24,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a61e9c249c20bbc499c5b8b700e8eada,
+        type: 3}
+    - target: {fileID: 114150391900755906, guid: a96cea6027dc9194aaeb1d5c5f355e24,
+        type: 2}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a96cea6027dc9194aaeb1d5c5f355e24, type: 2}
   m_IsPrefabParent: 0
@@ -998,6 +1009,17 @@ Prefab:
         type: 2}
       propertyPath: m_Text
       value: Drag
+      objectReference: {fileID: 0}
+    - target: {fileID: 114150391900755906, guid: a96cea6027dc9194aaeb1d5c5f355e24,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 28e11e1cf26d62d4abdbb5e41ee406a8,
+        type: 3}
+    - target: {fileID: 114150391900755906, guid: a96cea6027dc9194aaeb1d5c5f355e24,
+        type: 2}
+      propertyPath: m_PreserveAspect
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a96cea6027dc9194aaeb1d5c5f355e24, type: 2}
@@ -1430,7 +1452,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -0.0028997525, y: -0.00027466}
+  m_AnchoredPosition: {x: -0.00023475091, y: -0.00027466}
   m_SizeDelta: {x: 0, y: 15.199997}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &957330072
@@ -2027,6 +2049,17 @@ Prefab:
       propertyPath: m_Text
       value: Destroy
       objectReference: {fileID: 0}
+    - target: {fileID: 114150391900755906, guid: a96cea6027dc9194aaeb1d5c5f355e24,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 08759009109580c49a7fccfe0d2c0da4,
+        type: 3}
+    - target: {fileID: 114150391900755906, guid: a96cea6027dc9194aaeb1d5c5f355e24,
+        type: 2}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a96cea6027dc9194aaeb1d5c5f355e24, type: 2}
   m_IsPrefabParent: 0
@@ -2241,6 +2274,17 @@ Prefab:
         type: 2}
       propertyPath: m_Text
       value: Configure
+      objectReference: {fileID: 0}
+    - target: {fileID: 114150391900755906, guid: a96cea6027dc9194aaeb1d5c5f355e24,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: be98afff72ae6124ca7a36bb38d08d68,
+        type: 3}
+    - target: {fileID: 114150391900755906, guid: a96cea6027dc9194aaeb1d5c5f355e24,
+        type: 2}
+      propertyPath: m_PreserveAspect
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a96cea6027dc9194aaeb1d5c5f355e24, type: 2}
@@ -2576,6 +2620,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1880632097}
+  - component: {fileID: 1880632098}
   m_Layer: 5
   m_Name: BlockPanel
   m_TagString: Untagged
@@ -2602,6 +2647,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 75}
   m_SizeDelta: {x: 0, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1880632098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1880632096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0cc80ac9148212418c2d11f5e34a74f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  instrument: {fileID: 1528794121}
 --- !u!1 &1956701972
 GameObject:
   m_ObjectHideFlags: 0

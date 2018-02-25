@@ -34,6 +34,10 @@ namespace Assets.Scripts.Instruments
                     {
                         DestroyBlock(hit.collider.GetComponent<Attachment>().block);
                     }
+                    if (hit.collider.tag == Tags.block.ToString())
+                    {
+                        DestroyBlock(hit.collider.GetComponent<Block>());
+                    }
                 }
             }
         }

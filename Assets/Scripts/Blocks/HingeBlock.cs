@@ -1,10 +1,10 @@
 ﻿using Assets.Scripts.Events;
+using Assets.Scripts.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Assets.Scripts.Blocks
 {
@@ -67,7 +67,7 @@ namespace Assets.Scripts.Blocks
             HingeJointComponent = BlockCluster.gameObject.AddComponent<HingeJoint>();
             HingeJointComponent.connectedBody = targetAttachment.block.BlockCluster.rigidbodyComponent;
             HingeJointComponent.anchor = useAutomaticConnectionAnchor ? GetSpawnPointOffset() : GetSpawnAnchorPoint();
-            HingeJointComponent.axis = transform.TransformDirection(conectionAxis);// GetSpawnPointOffset()
+            HingeJointComponent.axis = transform.TransformDirection(conectionAxis);
         }
 
         private Vector3 GetSpawnAnchorPoint()
