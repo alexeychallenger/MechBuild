@@ -171,8 +171,15 @@ namespace Assets.Scripts.Blocks
             this.isPreview = isPreview;
             SwitchLayer(isPreview ? LayerType.Preview : LayerType.Block);
             name = string.Format("{0} {1} {2}", type, isPreview ? "(preview)" : "", gameObject.GetInstanceID());
-            meshRendererComponent.material = isPreview ? previewMaterial : defaultMaterial;
+            SwitchMaterial(isPreview);
             colliderComponent.isTrigger = isPreview;
+        }
+
+        public Material SwitchMaterial(bool isPreview)
+        {
+            Material material = isPreview ? previewMaterial : defaultMaterial;
+            meshRendererComponent.material = material;
+            return material;
         }
 
         protected void SwitchLayer(LayerType layerType)
@@ -205,7 +212,7 @@ namespace Assets.Scripts.Blocks
             transform.Rotate(rotation);
 
             Vector3 rotationDirection = currentBaseAttachment.transform.localRotation.eulerAngles;
-            Vector3 translateDirection = RoundUtils.AbsVector3(currentBaseAttachment.transform.localPosition);
+            Vector3 translateDirection = VectorUtils.AbsVector3(currentBaseAttachment.transform.localPosition);
 
             transform.Rotate(rotationDirection);
             transform.Translate(translateDirection);

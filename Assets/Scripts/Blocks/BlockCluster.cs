@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Assets.Scripts.Events;
+using Assets.Scripts.Utils;
 using UnityEngine;
 
 namespace Assets.Scripts.Blocks
@@ -66,9 +67,9 @@ namespace Assets.Scripts.Blocks
             rigidbodyComponent.mass += block.Mass;
         }
 
-        public void AddBlockRange(Block[] blockArray)
+        public void AddBlockRange(IEnumerable<Block> blockCollection)
         {
-            foreach (Block block in blockArray)
+            foreach (Block block in blockCollection)
             {
                 AddBlock(block);
             }
@@ -132,7 +133,14 @@ namespace Assets.Scripts.Blocks
             {
                 foreach (List<Block> cluserData in newClusterDataList)
                 {
-                    BlockCluster blockCluster = SpawnCluster(transform.position);
+                    List<Vector3> blockPositions = new List<Vector3>();
+                    foreach (Block block in cluserData)
+                    {
+                        blockPositions.Add(block.transform.position);
+                    }
+                    Vector3 clusterPosition = VectorUtils.FindCentroid(blockPositions);
+
+                    BlockCluster blockCluster = SpawnCluster(clusterPosition);
                     foreach (Block block in cluserData)
                     {
                         RemoveBlock(block);
@@ -164,6 +172,15 @@ namespace Assets.Scripts.Blocks
                 {
                     AddBlockToClusterData(unsortedBlocks, cluserData, block);
                 }
+            }
+        }
+
+        public void DetachAllBlocks()
+        {
+            Block[] blockArray = attachedBlockList.ToArray();
+            foreach (var block in blockArray)
+            {
+                RemoveBlock(block);
             }
         }
 

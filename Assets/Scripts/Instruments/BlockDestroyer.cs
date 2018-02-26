@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.Instruments
 {
@@ -30,6 +31,8 @@ namespace Assets.Scripts.Instruments
                 RaycastHit hit;
                 if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, Mathf.Infinity, LayerManager.blockLayerMask))
                 {
+                    if (EventSystem.current.IsPointerOverGameObject()) return;
+
                     if (hit.collider.tag == Tags.attachment.ToString())
                     {
                         DestroyBlock(hit.collider.GetComponent<Attachment>().block);

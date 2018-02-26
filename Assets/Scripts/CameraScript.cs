@@ -93,21 +93,21 @@ namespace Assets.Scripts
             }
 
             //сглаживание перемещения указателя на объект
-            if (RoundUtils.Vector3Round(targetPointer.localPosition, vectorTolerance) !=
-                RoundUtils.Vector3Round(cameraContainer.localPosition, vectorTolerance))
+            if (VectorUtils.Vector3Round(targetPointer.localPosition, vectorTolerance) !=
+                VectorUtils.Vector3Round(cameraContainer.localPosition, vectorTolerance))
             {
                 cameraContainer.localPosition = Vector3.Lerp(cameraContainer.localPosition, targetPointer.localPosition, followSpeed * Time.deltaTime);
             }
 
             //сглаживание зума камеры
-            if (RoundUtils.Vector3Round(mainCamera.transform.position, vectorTolerance) !=
-                RoundUtils.Vector3Round(cameraPointer.position, vectorTolerance))
+            if (VectorUtils.Vector3Round(mainCamera.transform.position, vectorTolerance) !=
+                VectorUtils.Vector3Round(cameraPointer.position, vectorTolerance))
             {
                 mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, cameraPointer.position, followSpeed * Time.deltaTime);
             }
 
             //сглаживание поворотов камеры вокруг цели
-            if (RoundUtils.Vector3Round(cameraContainer.eulerAngles, quaterTolerance) != RoundUtils.Vector3Round(targetPointer.eulerAngles, quaterTolerance))
+            if (VectorUtils.Vector3Round(cameraContainer.eulerAngles, quaterTolerance) != VectorUtils.Vector3Round(targetPointer.eulerAngles, quaterTolerance))
             {
                 cameraContainer.localRotation = Quaternion.Lerp(cameraContainer.localRotation, targetPointer.localRotation, followSpeed * Time.deltaTime);
             }

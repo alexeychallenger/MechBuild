@@ -304,7 +304,7 @@ namespace Assets.Scripts.Blocks
                         (
                             transform.InverseTransformDirection(hingeBlock.connectedAttachment.transform.forward),
                             transform.InverseTransformDirection(hingeBlock.transform.forward),
-                            RoundUtils.AbsVector3(hingeJointComponent.axis)
+                            VectorUtils.AbsVector3(hingeJointComponent.axis)
                         )
             };
             DbLog.LogFormat("Blue vector: {0}", hingeBlock.connectedAttachment.transform.forward);

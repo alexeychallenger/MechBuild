@@ -9,7 +9,7 @@ namespace Assets.Scripts.Utils
     /// <summary>
     /// Round utils
     /// </summary>
-    static class RoundUtils
+    static class VectorUtils
     {
         /// <summary>
         /// Round Vector3
@@ -54,6 +54,17 @@ namespace Assets.Scripts.Utils
                 Mathf.Abs(vector.z)
             );
             return absVector;
+        }
+
+        public static Vector3 FindCentroid(IEnumerable<Vector3> positionCollection)
+        {
+            Vector3 centroid = Vector3.zero;
+            foreach (var position in positionCollection)
+            {
+                centroid += position;
+            }
+            centroid /= positionCollection.Count();
+            return centroid;
         }
     }
 }
