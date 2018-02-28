@@ -25,6 +25,7 @@ namespace Assets.Scripts.UI.Instrument
             this.blockSpawner = blockSpawner;
             blockSpawner.BlockPrefabChanged += OnBlockPrefabChanged;
             blockName.text = blockPrefab.name;
+            blockImage.sprite = LoadBlockPreview();
         }
 
         protected void OnDestroy()
@@ -43,6 +44,18 @@ namespace Assets.Scripts.UI.Instrument
         protected void OnBlockPrefabChanged(ChangeValueEventArgs<Block> e)
         {
             button.interactable = !(e.NewValue == blockPrefab);
+        }
+
+        protected Sprite LoadBlockPreview()
+        {
+            string path = string.Format("Graphics/BlockPreview/{0}", blockPrefab.name);
+
+            Sprite sprite = Resources.Load<Sprite>(path);
+            if (sprite == null)
+            {
+                DbLog.LogWarningFormat("Sprite ({0}) not found", path);
+            }
+            return sprite;
         }
     }
 }
