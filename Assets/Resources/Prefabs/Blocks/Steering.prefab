@@ -68,8 +68,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1817099753847074}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 235.46, y: 9.52, z: 258.01}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 236.28, y: 9.52, z: 262.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4917063578128412}
@@ -196,7 +196,7 @@ MonoBehaviour:
   isPreview: 0
   useAutomaticConnectionAnchor: 0
   connectionAnchor: {x: 0, y: 0, z: -0.5}
-  conectionAxis: {x: 0, y: 1, z: 0}
+  connectionAxis: {x: 0, y: 1, z: 0}
 --- !u!114 &114605227465125718
 MonoBehaviour:
   m_ObjectHideFlags: 1

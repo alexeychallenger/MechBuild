@@ -11,16 +11,16 @@ Prefab:
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1563036535943684}
   m_IsPrefabParent: 1
---- !u!1 &1008633534346416
+--- !u!1 &1054201188941634
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4278276659577148}
-  - component: {fileID: 65410939545508372}
-  - component: {fileID: 114075476973791504}
+  - component: {fileID: 4351717825400476}
+  - component: {fileID: 65997241524813528}
+  - component: {fileID: 114839321194950792}
   m_Layer: 9
   m_Name: attachment (5)
   m_TagString: attachment
@@ -38,8 +38,8 @@ GameObject:
   - component: {fileID: 4661510184806576}
   - component: {fileID: 33704697779011856}
   - component: {fileID: 23238300023576604}
-  - component: {fileID: 114660795051101358}
   - component: {fileID: 64750231653815504}
+  - component: {fileID: 114498270370876444}
   m_Layer: 9
   m_Name: Piston
   m_TagString: block
@@ -47,12 +47,12 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4278276659577148
+--- !u!4 &4351717825400476
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1008633534346416}
+  m_GameObject: {fileID: 1054201188941634}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1.0000005, z: 0.05}
@@ -67,10 +67,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1563036535943684}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 233.8, y: 9.52, z: 258.394}
+  m_LocalPosition: {x: 231.5589, y: 8.52, z: 259.95}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4278276659577148}
+  - {fileID: 4351717825400476}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -129,31 +129,19 @@ MeshCollider:
   m_CookingOptions: 14
   m_SkinWidth: 0.00001
   m_Mesh: {fileID: 4300000, guid: c247097b8563fb9428c5c7808e48cbd9, type: 3}
---- !u!65 &65410939545508372
+--- !u!65 &65997241524813528
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1008633534346416}
+  m_GameObject: {fileID: 1054201188941634}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114075476973791504
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1008633534346416}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e612e9c0e9806d843bcf299f3c0eb5f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  block: {fileID: 114660795051101358}
---- !u!114 &114660795051101358
+--- !u!114 &114498270370876444
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -161,18 +149,33 @@ MonoBehaviour:
   m_GameObject: {fileID: 1563036535943684}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed1cdd31986ea634fbf19811b901478c, type: 3}
+  m_Script: {fileID: 11500000, guid: d2c1cac1799011446bd245fa7663d4bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 0
+  type: 6
+  blockCluster: {fileID: 0}
   attachments:
-  - {fileID: 114075476973791504}
+  - {fileID: 114839321194950792}
   connectedBlocks: []
   meshRendererComponent: {fileID: 23238300023576604}
   defaultMaterial: {fileID: 2100000, guid: ae0048e6fefe5444b95bf34786810994, type: 2}
   previewMaterial: {fileID: 2100000, guid: a875e115367d80a408e38509b6a68ed6, type: 2}
-  colliderComponent: {fileID: 0}
+  colliderComponent: {fileID: 64750231653815504}
   connectedAttachment: {fileID: 0}
   mass: 1
   currentBaseAttachment: {fileID: 0}
   isPreview: 0
+  connectionAnchor: {x: 0, y: 1, z: 0}
+  springForce: 200
+--- !u!114 &114839321194950792
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1054201188941634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e612e9c0e9806d843bcf299f3c0eb5f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  block: {fileID: 114498270370876444}

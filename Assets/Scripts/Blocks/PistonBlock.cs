@@ -8,28 +8,31 @@ using UnityEngine;
 
 namespace Assets.Scripts.Blocks
 {
-    public class HingeBlock : Block
+    public class PistonBlock : Block
     {
-        public bool useAutomaticConnectionAnchor = true;
         public Vector3 connectionAnchor;
-        public Vector3 connectionAxis;
-        protected HingeJoint hingeJointComponent;
-        public event Action<ChangeValueEventArgs<HingeJoint>> HingeJointComponentChanged;
-        public HingeJoint HingeJointComponent
+
+        public float springForce = 200f;
+
+        protected Vector3 connectionAxis = Vector3.up;
+        protected ConfigurableJoint configurableJoint;
+        public event Action<ChangeValueEventArgs<ConfigurableJoint>> JointComponentChanged;
+
+        public ConfigurableJoint ConfigurableJoint
         {
             get
             {
-                return hingeJointComponent;
+                return configurableJoint;
             }
             set
             {
-                var oldValue = hingeJointComponent;
+                var oldValue = configurableJoint;
                 if (value != oldValue)
                 {
-                    hingeJointComponent = value;
-                    if (HingeJointComponentChanged != null)
+                    configurableJoint = value;
+                    if (JointComponentChanged != null)
                     {
-                        HingeJointComponentChanged(new ChangeValueEventArgs<HingeJoint>(oldValue, value));
+                        JointComponentChanged(new ChangeValueEventArgs<ConfigurableJoint>(oldValue, value));
                     }
                 }
             }
@@ -52,22 +55,38 @@ namespace Assets.Scripts.Blocks
         public override void RegisterBlockCluster(BlockCluster blockCluster)
         {
             base.RegisterBlockCluster(blockCluster);
-            AddHingeJointComponent(connectedAttachment);
+            AddJointComponent(connectedAttachment);
         }
 
-        protected void AddHingeJointComponent(Attachment targetAttachment)
+        protected void AddJointComponent(Attachment targetAttachment)
         {
-            if (HingeJointComponent != null)
+            if (ConfigurableJoint != null)
             {
-                Destroy(HingeJointComponent);
+                Destroy(ConfigurableJoint);
             }
 
             if (targetAttachment == null) return;
 
-            HingeJointComponent = BlockCluster.gameObject.AddComponent<HingeJoint>();
-            HingeJointComponent.connectedBody = targetAttachment.block.BlockCluster.rigidbodyComponent;
-            HingeJointComponent.anchor = useAutomaticConnectionAnchor ? GetSpawnPointOffset() : GetSpawnAnchorPoint();
-            HingeJointComponent.axis = transform.TransformDirection(connectionAxis);
+            ConfigurableJoint = BlockCluster.gameObject.AddComponent<ConfigurableJoint>();
+            ConfigurableJoint.connectedBody = targetAttachment.block.BlockCluster.rigidbodyComponent;
+            ConfigurableJoint.anchor = GetSpawnAnchorPoint();
+            ConfigurableJoint.axis = transform.TransformDirection(connectionAxis);
+            ConfigurableJoint.xMotion = ConfigurableJointMotion.Locked;
+            ConfigurableJoint.yMotion = ConfigurableJointMotion.Limited;
+            ConfigurableJoint.zMotion = ConfigurableJointMotion.Locked;
+            ConfigurableJoint.angularXMotion = ConfigurableJointMotion.Locked;
+            ConfigurableJoint.angularYMotion = ConfigurableJointMotion.Locked;
+            ConfigurableJoint.angularZMotion = ConfigurableJointMotion.Locked;
+            ConfigurableJoint.linearLimit = new SoftJointLimit
+            {
+                limit = 1
+            };
+            ConfigurableJoint.yDrive = new JointDrive
+            {
+                positionSpring = springForce
+            };
+
+
         }
 
         private Vector3 GetSpawnAnchorPoint()
@@ -81,10 +100,10 @@ namespace Assets.Scripts.Blocks
         {
             if (e.NewValue == null)
             {
-                Destroy(HingeJointComponent);
+                Destroy(ConfigurableJoint);
                 return;
             }
-            AddHingeJointComponent(connectedAttachment);
+            AddJointComponent(connectedAttachment);
         }
 
         protected override void CleanAttachment(Attachment attachment)

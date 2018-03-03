@@ -141,7 +141,7 @@ namespace Assets.Scripts.Blocks
             }
         }
 
-        public virtual void Init(Attachment targetAttachment, int attachmentIndex, Vector3 rotation)
+        public virtual void Init(Attachment targetAttachment, int attachmentIndex, Quaternion rotation)
         {
             RegisterAttachment(targetAttachment);
 
@@ -196,20 +196,20 @@ namespace Assets.Scripts.Blocks
             SwitchPreview(true);
         }
 
-        public virtual void ShowPreview(Attachment targetAttachment, int attachmentIndex, Vector3 rotation)
+        public virtual void ShowPreview(Attachment targetAttachment, int attachmentIndex, Quaternion rotation)
         {
             SetPosition(targetAttachment, attachmentIndex, rotation);
         }
 
-        protected virtual void SetPosition(Attachment targetAttachment, int attachmentIndex, Vector3 rotation)
+        protected virtual void SetPosition(Attachment targetAttachment, int attachmentIndex, Quaternion rotation)
         {
             ResetPosition();
             SwitchBaseAttachment(attachmentIndex);
             
             transform.Translate(targetAttachment.transform.position, Space.World);
-            transform.Rotate(targetAttachment.transform.rotation.eulerAngles, Space.World);
+            //transform.Rotate(targetAttachment.transform.rotation.eulerAngles, Space.World);
 
-            transform.Rotate(rotation);
+            transform.rotation *= rotation;
 
             Vector3 rotationDirection = currentBaseAttachment.transform.localRotation.eulerAngles;
             Vector3 translateDirection = VectorUtils.AbsVector3(currentBaseAttachment.transform.localPosition);

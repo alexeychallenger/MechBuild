@@ -179,7 +179,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1585564694854098}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 233.814, y: 9.52, z: 263.555}
+  m_LocalPosition: {x: 233.87, y: 9.52, z: 263.555}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4647393311008064}
@@ -478,5 +478,5 @@ MonoBehaviour:
   currentBaseAttachment: {fileID: 0}
   isPreview: 0
   useAutomaticConnectionAnchor: 1
-  connectionAnchor: {x: 0, y: 0, z: 0}
-  conectionAxis: {x: 0, y: 0, z: 1}
+  connectionAnchor: {x: 0, y: 0, z: 0.5}
+  connectionAxis: {x: 0, y: 0, z: 1}

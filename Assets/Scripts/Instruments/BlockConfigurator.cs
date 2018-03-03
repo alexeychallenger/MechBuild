@@ -31,6 +31,7 @@ namespace Assets.Scripts.Instruments
         protected void Awake()
         {
             gameManager = FindObjectOfType<GameManager>();
+            Debug.Log(Physics.gravity);
         }
 
         protected void Update()
