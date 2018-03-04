@@ -88,7 +88,7 @@ namespace Assets.Scripts.Instruments
             EnableBlockPreviewValueChanged -= OnEnableBlockPreviewValueChanged;
         }
 
-        public void SpawnBlock(Attachment targetAttachment, Vector3 normal)
+        public void SpawnBlock(Attachment targetAttachment)
         {
             if (blockPrefab == null)
             {
@@ -96,13 +96,11 @@ namespace Assets.Scripts.Instruments
                 return;
             }
             Block block = Instantiate(blockPrefab);
-            Quaternion normalQuaternion = Quaternion.LookRotation(normal, targetAttachment.transform.up);
-            Quaternion spawnRotationQuaternion = Quaternion.Euler(spawnRotation);
 
-            block.Init(targetAttachment, spawnBaseAttachmentIndex, normalQuaternion * spawnRotationQuaternion);
+            block.Init(targetAttachment, spawnBaseAttachmentIndex, spawnRotation);
         }
 
-        public void EnablePreviewBlock(Attachment targetAttachment, Vector3 normal) 
+        public void EnablePreviewBlock(Attachment targetAttachment) 
         {
             if (previewBlock == null)
             {
@@ -110,10 +108,8 @@ namespace Assets.Scripts.Instruments
                 if (previewBlock == null) return;
             }
             previewBlock.gameObject.SetActive(true);
-            Quaternion normalQuaternion = Quaternion.LookRotation(normal, targetAttachment.transform.up);
-            Quaternion spawnRotationQuaternion = Quaternion.Euler(spawnRotation);
 
-            previewBlock.ShowPreview(targetAttachment, spawnBaseAttachmentIndex, normalQuaternion * spawnRotationQuaternion);
+            previewBlock.ShowPreview(targetAttachment, spawnBaseAttachmentIndex, spawnRotation);
         }
 
         public void DisablePreviewBlock()
@@ -168,7 +164,7 @@ namespace Assets.Scripts.Instruments
                 {
                     if (hit.collider.tag == Tags.attachment.ToString())
                     {
-                        SpawnBlock(hit.collider.GetComponent<Attachment>(), hit.normal);
+                        SpawnBlock(hit.collider.GetComponent<Attachment>());
                     }
                 }
             }
@@ -188,7 +184,7 @@ namespace Assets.Scripts.Instruments
                     Attachment attachment = hit.collider.GetComponent<Attachment>();
                     if (!attachment.block.isPreview)
                     {
-                        EnablePreviewBlock(attachment, hit.normal);
+                        EnablePreviewBlock(attachment);
                     }
                     return;
                 }

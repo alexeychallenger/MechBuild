@@ -35,7 +35,7 @@ namespace Assets.Scripts.Blocks
             }
         }
 
-        public override void Init(Attachment targetAttachment, int baseAttachmentIndex, Quaternion rotation)
+        public override void Init(Attachment targetAttachment, int baseAttachmentIndex, Vector3 rotation)
         {
             RegisterAttachment(targetAttachment);
 
@@ -97,6 +97,21 @@ namespace Assets.Scripts.Blocks
         {
             base.RegisterAttachment(targetAttachment);
             targetAttachment.block.BlockClusterChanged += UpdateAttachmentBlockCluster;
+        }
+
+        protected override void SetPosition(Attachment targetAttachment, int attachmentIndex, Vector3 rotation)
+        {
+            ResetPosition();
+            SwitchBaseAttachment(attachmentIndex);
+
+            transform.Translate(targetAttachment.transform.position, Space.World);
+            transform.Rotate(targetAttachment.transform.rotation.eulerAngles, Space.World);
+            transform.Rotate(rotation);
+
+            Vector3 rotationDirection = (transform.position - connectionAnchor).normalized;
+
+            transform.Rotate(rotationDirection);
+            transform.Translate(-connectionAnchor);
         }
     }
 }

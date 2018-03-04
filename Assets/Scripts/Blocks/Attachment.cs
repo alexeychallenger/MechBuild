@@ -14,8 +14,7 @@ namespace Assets.Scripts.Blocks
 
         public Vector3 GetPositionOffcet()
         {
-            Vector3 offcet = transform.position - block.transform.position;
-            return block.transform.localPosition + offcet;
+            return transform.localPosition;
         }
 
         protected void OnDestroy()

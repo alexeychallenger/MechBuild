@@ -94,6 +94,8 @@ namespace Assets.Scripts.Instruments
         protected void ConnectClusters()
         {
             List<Block> blockList = new List<Block>();
+            Quaternion clusterRotation = firstCluster.transform.rotation;
+
             blockList.AddRange(firstCluster.attachedBlockList);
             firstCluster.DetachAllBlocks();
             blockList.AddRange(secondCluster.attachedBlockList);

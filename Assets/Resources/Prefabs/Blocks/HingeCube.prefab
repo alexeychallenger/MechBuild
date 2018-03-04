@@ -455,5 +455,5 @@ MonoBehaviour:
   currentBaseAttachment: {fileID: 0}
   isPreview: 0
   useAutomaticConnectionAnchor: 1
-  connectionAnchor: {x: 0, y: 0, z: 0.5}
-  connectionAxis: {x: 0, y: 1, z: 0}
+  connectionAnchor: {x: 0, y: 0, z: -0.5}
+  connectionAxis: {x: 0, y: 0, z: 1}

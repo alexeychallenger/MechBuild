@@ -141,7 +141,7 @@ namespace Assets.Scripts.Blocks
             }
         }
 
-        public virtual void Init(Attachment targetAttachment, int attachmentIndex, Quaternion rotation)
+        public virtual void Init(Attachment targetAttachment, int attachmentIndex, Vector3 rotation)
         {
             RegisterAttachment(targetAttachment);
 
@@ -196,27 +196,26 @@ namespace Assets.Scripts.Blocks
             SwitchPreview(true);
         }
 
-        public virtual void ShowPreview(Attachment targetAttachment, int attachmentIndex, Quaternion rotation)
+        public virtual void ShowPreview(Attachment targetAttachment, int attachmentIndex, Vector3 rotation)
         {
             SetPosition(targetAttachment, attachmentIndex, rotation);
         }
 
-        protected virtual void SetPosition(Attachment targetAttachment, int attachmentIndex, Quaternion rotation)
+        protected virtual void SetPosition(Attachment targetAttachment, int attachmentIndex, Vector3 rotation)
         {
             ResetPosition();
             SwitchBaseAttachment(attachmentIndex);
             
             transform.Translate(targetAttachment.transform.position, Space.World);
-            //transform.Rotate(targetAttachment.transform.rotation.eulerAngles, Space.World);
+            transform.Rotate(targetAttachment.transform.rotation.eulerAngles, Space.World);
 
-            transform.rotation *= rotation;
-
+            transform.Rotate(rotation);
+            
+            Vector3 translateDirection = currentBaseAttachment.transform.localPosition;
             Vector3 rotationDirection = currentBaseAttachment.transform.localRotation.eulerAngles;
-            Vector3 translateDirection = VectorUtils.AbsVector3(currentBaseAttachment.transform.localPosition);
 
             transform.Rotate(rotationDirection);
             transform.Translate(translateDirection);
-            
         }
 
         protected void ResetPosition()
@@ -305,10 +304,6 @@ namespace Assets.Scripts.Blocks
                 DbLog.Log(string.Format("Block instance {0} destroyed", this), Color.green, this);
             }
             Destroy(gameObject);
-        }
-
-        protected void OnDestroy()
-        {
         }
     }
 }

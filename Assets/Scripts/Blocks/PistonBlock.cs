@@ -10,7 +10,10 @@ namespace Assets.Scripts.Blocks
 {
     public class PistonBlock : Block
     {
+        public Vector3 spawnRotation;
+        public Vector3 spawnAnchor;
         public Vector3 connectionAnchor;
+
 
         public float springForce = 200f;
 
@@ -38,7 +41,7 @@ namespace Assets.Scripts.Blocks
             }
         }
 
-        public override void Init(Attachment targetAttachment, int baseAttachmentIndex, Quaternion rotation)
+        public override void Init(Attachment targetAttachment, int baseAttachmentIndex, Vector3 rotation)
         {
             RegisterAttachment(targetAttachment);
 
@@ -72,8 +75,8 @@ namespace Assets.Scripts.Blocks
             ConfigurableJoint.anchor = GetSpawnAnchorPoint();
             ConfigurableJoint.axis = transform.TransformDirection(connectionAxis);
             ConfigurableJoint.xMotion = ConfigurableJointMotion.Locked;
-            ConfigurableJoint.yMotion = ConfigurableJointMotion.Limited;
-            ConfigurableJoint.zMotion = ConfigurableJointMotion.Locked;
+            ConfigurableJoint.yMotion = ConfigurableJointMotion.Locked;
+            ConfigurableJoint.zMotion = ConfigurableJointMotion.Limited;
             ConfigurableJoint.angularXMotion = ConfigurableJointMotion.Locked;
             ConfigurableJoint.angularYMotion = ConfigurableJointMotion.Locked;
             ConfigurableJoint.angularZMotion = ConfigurableJointMotion.Locked;
@@ -81,7 +84,7 @@ namespace Assets.Scripts.Blocks
             {
                 limit = 1
             };
-            ConfigurableJoint.yDrive = new JointDrive
+            ConfigurableJoint.zDrive = new JointDrive
             {
                 positionSpring = springForce
             };
@@ -117,5 +120,19 @@ namespace Assets.Scripts.Blocks
             base.RegisterAttachment(targetAttachment);
             targetAttachment.block.BlockClusterChanged += UpdateAttachmentBlockCluster;
         }
+
+        //protected override void SetPosition(Attachment targetAttachment, int attachmentIndex, Quaternion rotation)
+        //{
+        //    ResetPosition();
+        //    SwitchBaseAttachment(attachmentIndex);
+
+        //    transform.Translate(targetAttachment.transform.position, Space.World);
+        //    transform.rotation *= rotation;
+
+        //    //Vector3 rotationDirection = (transform.position - connectionAnchor).normalized;
+
+        //    transform.rotation *= Quaternion.Euler(spawnRotation);
+        //    transform.Translate(spawnAnchor);
+        //}
     }
 }

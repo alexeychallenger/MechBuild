@@ -153,7 +153,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 6
-  blockCluster: {fileID: 0}
   attachments:
   - {fileID: 114839321194950792}
   connectedBlocks: []
@@ -165,7 +164,9 @@ MonoBehaviour:
   mass: 1
   currentBaseAttachment: {fileID: 0}
   isPreview: 0
-  connectionAnchor: {x: 0, y: 1, z: 0}
+  spawnRotation: {x: 180, y: 0, z: 0}
+  spawnAnchor: {x: 0, y: 0, z: -0.5}
+  connectionAnchor: {x: 0, y: 0, z: 1}
   springForce: 200
 --- !u!114 &114839321194950792
 MonoBehaviour:
