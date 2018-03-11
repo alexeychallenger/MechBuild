@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.GameManagement;
 using Assets.Scripts.UI.ModalWindows.Parameters;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,11 +51,12 @@ namespace Assets.Scripts
                 Time.timeScale = Mathf.Clamp(Time.timeScale + 0.05f, 0f, 10f);
             }
 
-            float gravityCoef = 9.8f;
+            string gravityCoefStr = GInputField.inputField != null ? GInputField.inputField.text : null;
+            float gravityCoef = gravityCoefStr != null ? Convert.ToSingle(gravityCoefStr) : 9.8f;
 
             if (Input.GetKeyDown(KeyCode.Home))
             {
-                Physics.gravity = Vector3.up * gravityCoef;
+                Physics.gravity = Vector3.up *  gravityCoef;
             }
             if (Input.GetKeyDown(KeyCode.End))
             {

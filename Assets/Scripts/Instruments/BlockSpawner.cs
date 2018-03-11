@@ -52,9 +52,6 @@ namespace Assets.Scripts.Instruments
 
         protected Block previewBlock;
 
-        public BlockCluster blockClusterPrefab;
-        public BlockManager blockManager;
-
         public override InstrumentType Type
         {
             get
