@@ -12,6 +12,7 @@ namespace Assets.Scripts.Blocks
     {
         protected const float FIXABLE_FORCE = 100000f;
 
+        
         [SerializeField] protected float motorForce = 100f;
         [SerializeField] protected float motorVelocity = 100f;
         [SerializeField] protected float motorDamper = 0f;
@@ -209,18 +210,19 @@ namespace Assets.Scripts.Blocks
         public HingeBlock hingeBlock;
         public HingeJoint hingeJointComponent;
 
-        protected void Start()
+        protected virtual void Start()
         {
             hingeJointComponent = hingeBlock.HingeJointComponent;
             hingeBlock.HingeJointComponentChanged += UpdateHingeJointComponent;
+
         }
 
-        protected void UpdateHingeJointComponent(ChangeValueEventArgs<HingeJoint> e)
+        protected virtual void UpdateHingeJointComponent(ChangeValueEventArgs<HingeJoint> e)
         {
             hingeJointComponent = e.NewValue;
         }
 
-        protected void Update()
+        protected virtual void Update()
         {
             if (hingeJointComponent == null) return;
 
@@ -249,13 +251,10 @@ namespace Assets.Scripts.Blocks
             }
         }
 
-        protected void MotorDrive()
+        protected virtual void MotorDrive()
         {
-            
             Debug.DrawLine(hingeBlock.transform.position, hingeBlock.transform.position + hingeBlock.transform.forward * 10f, Color.red);
             Debug.DrawLine(hingeBlock.connectedAttachment.transform.position, hingeBlock.connectedAttachment.transform.position + hingeBlock.connectedAttachment.transform.forward * 10f, Color.blue);
-
-            DbLog.LogFormat("Current angle: {0}", hingeJointComponent.spring.targetPosition);
 
             switch (state)
             {
@@ -267,6 +266,7 @@ namespace Assets.Scripts.Blocks
                     break;
                 case MotorState.DriveForward:
                     isAngleCalculated = false;
+
                     hingeJointComponent.useMotor = true;
                     hingeJointComponent.useSpring = false;
                     hingeJointComponent.motor = new JointMotor

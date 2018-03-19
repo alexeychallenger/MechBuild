@@ -19,17 +19,9 @@ namespace Assets.Scripts
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                gameManager.sceneLoader.LoadScene(Scenes.Menu);
-            }
             if (Input.GetKeyDown(KeyCode.Pause))
             {
                 Debug.Break();
-            }
-            if (Input.GetKeyDown(KeyCode.F1))
-            {
-                gameManager.sceneLoader.LoadScene(Scenes.LoadingScene);
             }
             if (Input.GetKeyDown(KeyCode.F2))
             {
@@ -69,6 +61,14 @@ namespace Assets.Scripts
             if (Input.GetKeyDown(KeyCode.PageDown))
             {
                 Physics.gravity = Vector3.right * gravityCoef;
+            }
+            if (Input.GetKeyDown(KeyCode.Insert))
+            {
+                Physics.gravity = Vector3.forward * gravityCoef;
+            }
+            if (Input.GetKeyDown(KeyCode.PageUp))
+            {
+                Physics.gravity = Vector3.back * gravityCoef;
             }
         }
     }

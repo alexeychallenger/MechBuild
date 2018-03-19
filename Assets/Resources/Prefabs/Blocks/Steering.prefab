@@ -40,8 +40,7 @@ GameObject:
   - component: {fileID: 23826883318538218}
   - component: {fileID: 64901437541630864}
   - component: {fileID: 114574225794816566}
-  - component: {fileID: 114605227465125718}
-  - component: {fileID: 114497910785795282}
+  - component: {fileID: 114626641651435210}
   m_Layer: 9
   m_Name: Steering
   m_TagString: block
@@ -69,7 +68,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1817099753847074}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 236.28, y: 9.52, z: 262.99}
+  m_LocalPosition: {x: -52, y: 9.52, z: 39}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4917063578128412}
@@ -143,22 +142,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114497910785795282
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1817099753847074}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68157eae00d9f26478feecd3617fb583, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minLimit: -75
-  maxLimit: 75
-  useLimits: 1
-  hingeBlock: {fileID: 114574225794816566}
-  hingeJointComponent: {fileID: 0}
 --- !u!114 &114551021983851146
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -197,7 +180,7 @@ MonoBehaviour:
   useAutomaticConnectionAnchor: 0
   connectionAnchor: {x: 0, y: 0, z: -0.5}
   connectionAxis: {x: 0, y: 1, z: 0}
---- !u!114 &114605227465125718
+--- !u!114 &114626641651435210
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -205,17 +188,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1817099753847074}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7d58d1bde7c5a2f4e8f16d3f9eb6ea68, type: 3}
+  m_Script: {fileID: 11500000, guid: 18249e0c19ea4be4bad428fb0772c495, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  motorForce: 9999999
+  motorForce: 100
   motorVelocity: 100
   motorDamper: 0
   freespin: 0
-  forwardAxisKey: 275
-  backAxisKey: 276
+  forwardAxisKey: 276
+  backAxisKey: 275
   isReverse: 0
   isFixable: 1
   state: 0
   hingeBlock: {fileID: 114574225794816566}
   hingeJointComponent: {fileID: 0}
+  rotateSpeed: 1
+  min: -45
+  max: 45
